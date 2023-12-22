@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import DeletIcon from '../../Assests/Dashboard/delete.svg';
-import Edit from '../../Assests/Dashboard/edit.svg'
+import React, { useEffect, useState } from "react";
+import AddIcon from "../../Assests/Category/addIcon.svg";
 
-const CouponDiscount = () => {
+import DeletIcon from "../../Assests/Dashboard/delete.svg";
+import Edit from "../../Assests/Dashboard/edit.svg";
+
+const CouponDiscount = ({ seVisible }) => {
   const [coupons, setCoupons] = useState([
     {
       id: 1,
@@ -44,82 +45,51 @@ const CouponDiscount = () => {
 
   return (
     <>
-      <div className="mx-2 my-2">
-        <div
-          className="box-content w-70 p-4 border-4 border-white bg-white rounded-xl opacity-100 my-9 mx-8"
-          style={{ boxShadow: "0px 3px 6px #0000001F" }}
-        >
-          <div className="flex justify-between gap-2 mx-6 my-2">
-            <div className="text-[18px] Admin_std leading-0 text-black admin_medium font-semibold opacity-100">
-              Coupons
-            </div>
-            <div>
-              <div className="text-[18px] Admin_std leading-0 text-blue-500 admin_medium font-semibold opacity-100">
-                <Link to="/addCoupon">
-                  Add New Coupon
-                  <button className="text-[18px] text-blue-500 ml-1 focus:outline-none">
-                    +
-                  </button>
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="mt-2 bg-[#000] border-b-2 w-full mb-4"></div>
+      <div className="mt-10">
+        <div className="q-attributes-bottom-detail-section">
+          <div className="q-attributes-bottom-header">
+            <span>Coupon</span>
 
-          <div className="flex flex-col md:flex-row gap-4">
-            {coupons.map((coupon) => (
-              <div
-                key={coupon.id}
-                className={`flex flex-col rounded-lg shadow-md p-4 w-full md:w-[500px] mb-4 ${
-                  coupon.status === "Enabled"
-                    ? "border-blue-500 bg-white"
-                    : "border-[#f0f0f0] bg-[#f0f0f0]"
-                }`}
-              >
-                <div className="flex justify-between mb-2">
-                  <h5 className="text-xl font-medium text-[#0A64F9] bg-[#F2F6FF] p-2">
-                    {coupon.code}
-                  </h5>
-                  <div className="flex space-x-2">
-                    <img src={Edit} alt="" className="h-12 w-16"  onClick={() => handleEdit(coupon.id)} />
-                    
-                   
-                 <img src={DeletIcon} alt="delet" className="h-12 w-16"
-                      onClick={() => handleDelete(coupon.id)}
-                     />
-                  
-                  </div>
+            <p onClick={() => seVisible("AddCoupon")}>
+              Add New Coupon <img src={AddIcon} alt="add-icon" />
+            </p>
+          </div>
+          <div className="flex justify-between w-full gap-8">
+            <div className="q_copuon_header mx-12">
+              <div className="flex justify-between w-full">
+                <div className="q_coupon_code">
+                  <p>FLAT20</p>
                 </div>
-                <p className="mb-2 text-[18px] text-[#000000] Admin_bold opacity-100">
-                  {coupon.discount}
-                </p>
-                <p className="mb-2 text-[13px] text-black admin_medium">
-                  Valid Date:{" "}
-                  <span className="mb-2 text-[13px] text-[#7D7D7D] opacity-100 adminstdbook flex justify-end">
-                    {coupon.validDate}
-                  </span>
-                </p>
-                <p className="mb-2 text-[13px] text-black admin_medium">
-                  Max Discount:{" "}
-                  <span className="mb-2 text-[13px] text-[#7D7D7D] opacity-100 adminstdbook flex justify-end">
-                    {coupon.maxDiscount}
-                  </span>
-                </p>
-                <p className="mb-2 text-[13px] text-black admin_medium">
-                  Status: {coupon.status}
-                </p>
-                <button
-                  onClick={() => handleToggleStatus(coupon.id)}
-                  className={`text-xs px-2 py-1 rounded-md mt-2 ${
-                    coupon.status === "Enabled"
-                      ? "bg-green-500 text-white"
-                      : "bg-gray-500 text-gray-200"
-                  }`}
-                >
-                  {coupon.status === "Enabled" ? "Disable" : "Enable"}
-                </button>
+                <div className="flex space-x-2 p-4">
+                  <img src={Edit} alt="" className="h-12 w-16" />
+
+                  <img src={DeletIcon} alt="delet" className="h-12 w-16" />
+                </div>
               </div>
-            ))}
+
+              <div className="q_discount_coupon_Code">
+                <div className="">20% OFF on minimum order of $30.00</div>
+              </div>
+              <div className="">
+                
+              </div>
+            </div>
+
+            <div className="q_copuon_header mx-4">
+              <div className="flex justify-between w-full">
+                <div className="q_coupon_code">
+                  <p>SUMMER25</p>
+                </div>
+                <div className="flex space-x-2 p-4">
+                  <img src={Edit} alt="" className="h-12 w-16" />
+
+                  <img src={DeletIcon} alt="delet" className="h-12 w-16" />
+                </div>
+              </div>
+              <div className="q_discount_coupon_Code">
+                <div className="">20% OFF on minimum order of $30.00</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

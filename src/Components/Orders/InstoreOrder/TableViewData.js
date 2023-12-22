@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "../../../Styles/TableOrderPage.css";
 
-import Pagination from "react-js-pagination";
+
 import DefaultPagination from "./DefaultPagination";
 
 const OnlineTable = () => {
@@ -99,7 +99,7 @@ const OnlineTable = () => {
           </div>
           <div className="py-8">
 
-          <DefaultPagination />
+          {/* <DefaultPagination /> */}
           </div>
          
       

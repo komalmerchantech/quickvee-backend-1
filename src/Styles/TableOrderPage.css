@@ -420,3 +420,24 @@
     justify-content: end;
 
 }
+
+
+.q_section_enter{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.q_table_Enteries>p{
+    font-size: 18px;
+    margin: 12px;
+
+}
+
+
+.q_border_display_design{
+border: 1px solid #EBEBEB;
+margin: 12px;
+padding: 10px 20px;
+border-radius: 4px;}
+
+

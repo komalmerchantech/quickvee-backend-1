@@ -1,0 +1,135 @@
+@font-face {
+    font-family: CircularBold;
+    src: url("../Assests/Fonts/circular-bold.TTF");
+}
+
+@font-face {
+    font-family: CircularMedium;
+    src: url("../Assests/Fonts/circulur-medium.TTF");
+}
+
+@font-face {
+    font-family: CircularSTDBlack;
+    src: url("../Assests/Fonts/circulur-std-black.TTF");
+}
+
+@font-face {
+    font-family: CircularSTDBook;
+    src: url("../Assests/Fonts/circulur-std-book.TTF");
+}
+
+@font-face {
+    font-family: CircularSTDMedium;
+    src: url("../Assests/Fonts/FontsFree-Net-Circular-Std-Medium.ttf");
+}
+
+
+
+
+
+
+
+.q-attributes-main-page {
+    margin: 0px 40px;
+}
+
+.q-attributes-top-detail-section {
+    padding: 20px;
+    background: #FFFFFF;
+    box-shadow: 0px 3px 6px #0000001F;
+    border-radius: 8px;
+    margin: 30px 0;
+}
+
+.q-attributes-top-detail-section li {
+    color: #818181;
+    list-style-type: none;
+    font-family: CircularSTDBook !important;
+    font-size: 14px;
+    position: relative;
+    padding-left: 20px;
+}
+
+.q-attributes-top-detail-section li::before {
+    content: '\2022';
+    color: #000;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.q-attributes-bottom-detail-section {
+    width: 100%;
+    box-shadow: 0px 3px 6px #0000001F;
+    border-radius: 8px !important;
+}
+
+.q_copuon_header{
+    width:50%;
+
+    border:1px solid #EFEFEF;
+    border-radius: 8px;
+    padding: 60px 0;
+
+
+}
+
+
+.q_coupon_details_header{
+    width:50%;
+    display: flex;
+    justify-content:space-between;
+ 
+}
+
+
+/* Custom CSS for Toggle Button */
+.toggle-checkbox {
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    overflow: hidden;
+    position: absolute;
+  }
+  
+  .toggle-label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 9999px;
+    transition: background-color 0.3s;
+  }
+  
+  .toggle-label-enabled {
+    background-color: #4caf50; /* Green color for enabled state */
+   
+  }
+  
+  .toggle-label-disabled {
+    background-color: #ccc; /* Gray color for disabled state */
+  }
+
+  .q_coupon_code{
+    font-size: 20px;
+    font-family: CircularBold !important;
+
+padding: 16px;
+  }
+.q_coupon_code>p{
+  background-color: #F2F6FF;
+    padding: 5px 10px;
+    border-radius: 4px;
+color:#0A64F9;
+font-family: CircularSTDMedium !important;
+}
+  
+  
+.q_discount_coupon_Code{
+    font-size:18px;
+    color:#000000;
+    font-family: CircularBold !important;
+    opacity:1;
+    margin-bottom:1px;
+margin-left: 20px;}
+    
