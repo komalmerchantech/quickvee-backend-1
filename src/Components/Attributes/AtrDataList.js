@@ -2,8 +2,8 @@ import React, { useEffect,useState} from "react";
 import AddIcon from "../../Assests/Category/addIcon.svg";
 import DeleteIcon from "../../Assests/Category/editIcon.svg";
 import { fetchCategoriesData } from "../../Redux/features/Categories/categoriesSlice";
-import { useSelector, useDispatch } from "react-redux";
-import {FaPencilAlt} from "react-icons/fa"
+import { useDispatch } from "react-redux";
+
 import CrossIcon from "../../Assests/Dashboard/cross.svg"
 import SortIcon from "../../Assests/Category/sortingIcon.svg"
 
@@ -34,16 +34,11 @@ const AtrDataList = ({ seVisible }) => {
   };
 
   const handleAddAttribute = () => {
-    // Implement logic to handle adding attribute, e.g., dispatch an action or make an API call
-    // You can use the attributeTitle state for the entered title
+
     console.log('Adding attribute:', attributeTitle);
 
-    // Close the modal after handling the action
     closeModal();
   };
-
-
-
 
 
   return (
