@@ -1,90 +1,109 @@
 @font-face {
     font-family: CircularBold;
     src: url("../Assests/Fonts/circular-bold.TTF");
-}
-
-@font-face {
+  }
+  
+  @font-face {
     font-family: CircularMedium;
     src: url("../Assests/Fonts/circulur-medium.TTF");
-}
-
-@font-face {
+  }
+  
+  @font-face {
     font-family: CircularSTDBlack;
     src: url("../Assests/Fonts/circulur-std-black.TTF");
-}
-
-@font-face {
+  }
+  
+  @font-face {
     font-family: CircularSTDBook;
     src: url("../Assests/Fonts/circulur-std-book.TTF");
-}
-
-@font-face {
+  }
+  
+  @font-face {
     font-family: CircularSTDMedium;
     src: url("../Assests/Fonts/FontsFree-Net-Circular-Std-Medium.ttf");
-}
-
-
-
-
-
-
-
-.q-attributes-main-page {
+  }
+  
+  .q-attributes-main-page {
     margin: 0px 40px;
-}
-
-.q-attributes-top-detail-section {
+  }
+  
+  .q-attributes-top-detail-section {
     padding: 20px;
-    background: #FFFFFF;
-    box-shadow: 0px 3px 6px #0000001F;
+    background: #ffffff;
+    box-shadow: 0px 3px 6px #0000001f;
     border-radius: 8px;
     margin: 30px 0;
-}
-
-.q-attributes-top-detail-section li {
+  }
+  
+  .q-attributes-top-detail-section li {
     color: #818181;
     list-style-type: none;
     font-family: CircularSTDBook !important;
     font-size: 14px;
     position: relative;
     padding-left: 20px;
-}
-
-.q-attributes-top-detail-section li::before {
-    content: '\2022';
+  }
+  
+  .q-attributes-top-detail-section li::before {
+    content: "\2022";
     color: #000;
     position: absolute;
     left: 0;
     top: 0;
-}
-
-.q-attributes-bottom-detail-section {
-    width: 100%;
-    box-shadow: 0px 3px 6px #0000001F;
-    border-radius: 8px !important;
-}
-
-.q_copuon_header{
-    width:50%;
-
-    border:1px solid #EFEFEF;
-    border-radius: 8px;
-    padding: 60px 0;
-
-
-}
-
-
-.q_coupon_details_header{
-    width:50%;
+  }
+  
+  .q-coupon-bottom-header {
     display: flex;
-    justify-content:space-between;
- 
-}
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-bottom: 1px solid #0000001f;
+    margin-bottom: 1%;
+  }
+  
+  .q-coupon-bottom-header p {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0A64F9;
+      font-family: CircularSTDMedium !important;
+      font-size: 16px;
+  }
+  
+  .q-coupon-bottom-detail-section {
+    width: 100%;
+    box-shadow: 0px 3px 6px #0000001f;
+    border-radius: 8px !important;
+    height: 800px;
+  }
+  
+  .q_copuon_header {
+    width: 46%;
+  
+    border: 1px solid #efefef;
+    border-radius: 8px;
+    padding: 30px 0px;
+  }
+  .q_main_section_coupon{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1rem; /* Adjust the value as needed */
+  }
+  
 
 
-/* Custom CSS for Toggle Button */
-.toggle-checkbox {
+
+  .q_coupon_details_header {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  /* Custom CSS for Toggle Button */
+  .toggle-checkbox {
     clip: rect(0, 0, 0, 0);
     height: 1px;
     width: 1px;
@@ -103,33 +122,244 @@
   
   .toggle-label-enabled {
     background-color: #4caf50; /* Green color for enabled state */
-   
   }
   
   .toggle-label-disabled {
     background-color: #ccc; /* Gray color for disabled state */
   }
-
-  .q_coupon_code{
+  
+  .q_coupon_code {
     font-size: 20px;
     font-family: CircularBold !important;
-
-padding: 16px;
+  
+    padding: 16px;
   }
-.q_coupon_code>p{
-  background-color: #F2F6FF;
+  .q_coupon_code > p {
+    background-color: #f2f6ff;
     padding: 5px 10px;
     border-radius: 4px;
-color:#0A64F9;
-font-family: CircularSTDMedium !important;
-}
+    color: #0a64f9;
+    font-family: CircularSTDMedium !important;
+  }
   
-  
-.q_discount_coupon_Code{
-    font-size:18px;
-    color:#000000;
+  .q_discount_coupon_Code {
+    font-size: 18px;
+    color: #000000;
     font-family: CircularBold !important;
-    opacity:1;
-    margin-bottom:1px;
-margin-left: 20px;}
+    opacity: 1;
+    margin-bottom: 1px;
+    margin-left: 20px;
+  }
+  
+  .q_coupon_deatails_validtimes {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: center;
+    padding: 10px 12px;
+  }
+  .q_coupon_discountCode {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: center;
+    padding: 5px 12px;
+  }
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #2196f3;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196f3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+  
+  .q_coupon_status_btn {
+    flex-direction: row;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #f2f6ff;
+    background-color: #f2f6ff;
+    border-radius: 4px;
+    text-align: center;
+    padding: 5px 12px;
+  }
+  .q_coupon_page_details {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  /* Regular styles for your component */
+  .q_copuon_header {
+    /* Your existing styles */
+    /* Add default styles here */
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+  }
+  
+  /* Styles for the active state */
+  .q_copuon_header.active {
+    border: 2px solid blue;
+    background-color: white;
+    box-shadow: 0px 0px 22px #8DB2FF7A;
+  }
+
+  .q_coupon_deatails_validtimes>p{
+    color:#000;
+    font-size: 15px;
+    font-family:CircularMedium !important ;
+  }
+  .q_coupon_discountCode>p{
+    color:#000;
+    font-size: 15px;
+    font-family:CircularMedium !important ;
+
+  }
+  .q_coupon_deatails_validtimes .q_date_details{
+        color:#7D7D7D !important;
+    font-size: 15px;
+    font-family:CircularMedium !important ;
+
+  }
+  .q_coupon_discountCode .q_date_details{
+    color:#7D7D7D !important;
+    font-size: 15px;
+    font-family:CircularMedium !important ;
+  }
+  .q_coupon_status_btn>p{
+    font-size: 18px;
+    font-family:CircularBold !important;
+    color:#000000;
+    opacity: 1;
+    letter-spacing: 0px;
+    padding-left: 3px;
+    margin-top: 6px;
+  }
+
+  /* add coupon css */
+.q_coupon_Add_status_btn{
+  display: flex;
+    justify-content: space-between;
+ font-size: 18px;
+    font-family:CircularBold !important;
+    color:#000000;
+    opacity: 1;
+    letter-spacing: 0px;
+    padding-left: 3px;
+    margin-top: 6px;}
+
+    .q-add-categories-section-middle-form {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .q-add-categories-section-middle-form>.q-add-coupon-single-input {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .q-add-coupon-amount-input>label {
+        color: #818181;
+        font-size: 14px;
+        font-family: CircularSTDBook !important;
+    }
+    .q-add-coupon-single-input>label {
+        color: #818181;
+        font-size: 14px;
+        font-family: CircularSTDBook !important;
+    }
+
+    .q-add-categories-section-middle-form>.q_coupon_calculation_amount  input {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    
+    .q-add-coupon-single-input input,
+    .q-add-coupon-single-input textarea {
+        font-family: CircularSTDBook !important;
+        color: #000000;
+        font-size: 15px;
+        outline: none;
+        background: #FFFFFF;
+        border: 1px solid #E1E1E1;
+        border-radius: 4px;
+        padding: 8px;
+        margin: 5px 0 15px 0;}
+
+        .q_coupon_calculation_amount>label {
+            color: #818181;
+            font-size: 14px;
+            font-family: CircularSTDBook !important;
+        }
+
+.q_coupon_calculation_amount input{
+        font-family: CircularSTDBook !important;
+        color: #000000;
+        font-size: 15px;
+        outline: none;
+        background: #FFFFFF;
+        border: 1px solid #E1E1E1;
+        border-radius: 4px;
+        padding: 8px;
+        margin: 5px 0 15px 0;}
+
+.q_coupon_calculation_amount{
+        display: flex;
+        flex-direction: column;
+        width: 45%;
+    }
     
