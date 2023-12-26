@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect} from 'react';
 import AddIcon from "../../Assests/Category/addIcon.svg";
 import DeleteIcon from "../../Assests/Category/deleteIcon.svg";
 import {fetchCategoriesData} from "../../Redux/features/Categories/categoriesSlice"
@@ -23,8 +23,8 @@ if(data){
       <div className='q-category-bottom-detail-section'>
         <div className='q-category-bottom-header-sticky'>
           <div className='q-category-bottom-header'>
-            <span>Category</span>
-            <p onClick={() => seVisible("CategoryAlert")}>Add Category <img src={AddIcon} alt="add-icon" /> </p>
+            <span>Purchase Order</span>
+            <p onClick={() => seVisible("CategoryAlert")}>Add New PO <img src={AddIcon} alt="add-icon" /> </p>
           </div>
           <div className='q-category-bottom-categories-header'>
             <p className='categories-sort' >Sort</p>

@@ -28,6 +28,16 @@ import "./Styles/TableOrderPage.css";
 import "./Styles/MainInStore.css";
 import "./Styles/MainOrderPage.css";
 import "./Styles/CouponDiscount.css"
+import Setup from "./Components/StoreSetting/SubSetting/Setup";
+import Alters from "./Components/StoreSetting/SubSetting/Alters";
+import AddEmployee from "./Components/StoreSetting/SubSetting/AddEmployee";
+import Receipt from "./Components/StoreSetting/SubSetting/Receipt";
+
+import Resigter from "./Components/StoreSetting/SubSetting/Resigter";
+import Inventory from "./Components/StoreSetting/SubSetting/Inventory";
+import QuickAdd from "./Components/StoreSetting/SubSetting/QuickAdd";
+import Options from "./Components/StoreSetting/SubSetting/Options";
+import SystemAccess from "./Components/StoreSetting/SubSetting/SystemAccess";
 
 
 
@@ -54,9 +64,25 @@ function App() {
           <Route exact path="/addpurchaseOrder" element={<AddPo />} />
           <Route exact path="/addCoupon" element={<AddCoupon />} />
           <Route path ="/store-setting" element ={<MainStoreSetting />} />
+          <Route path="/store-settings/info" element={<Info />} />
           <Route path ="/report" element ={<MainReport />} />
 
-          <Route path="/store-setting"  element={<Info />} />
+          <Route path="/store-settings/setup"  element={<Setup/>} />
+          <Route path="/store-settings/option"  element={<Options />} />
+
+          <Route path="/store-settings/alters"  element={<Alters />} />
+
+          <Route path="/store-settings/add-employee"  element={<AddEmployee />} />
+
+          <Route path="/store-settings/receipt"  element={<Receipt />} />
+
+          <Route path="/store-settings/inventory"  element={<Inventory/>} />
+
+          <Route path="/store-settings/register"  element={<Resigter/>} />
+
+          <Route path="/store-settings/quick-add"  element={<QuickAdd/>} />
+          <Route path="/store-settings/system-access"  element={<SystemAccess/>} />
+
         
         </Route>
       </Routes>

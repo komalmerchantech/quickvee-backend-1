@@ -5,6 +5,7 @@ import { fetchCategoriesData } from "../../Redux/features/Categories/categoriesS
 import { useSelector, useDispatch } from "react-redux";
 import {FaPencilAlt} from "react-icons/fa"
 import CrossIcon from "../../Assests/Dashboard/cross.svg"
+import SortIcon from "../../Assests/Category/sortingIcon.svg"
 
 const AtrDataList = ({ seVisible }) => {
 
@@ -65,7 +66,7 @@ const AtrDataList = ({ seVisible }) => {
         <div className="q-attributes-bottom-attriButes-listing">
           <div className="q-attributes-bottom-attriButes-single-attributes">
             <p className="attriButes-sort">
-              <img src={AddIcon} alt="add-icon" />
+              <img src={SortIcon} alt="add-icon" />
             </p>
             <p className="attriButes-title">Electronics</p>
 
@@ -75,7 +76,7 @@ const AtrDataList = ({ seVisible }) => {
           </div>
           <div className="q-attributes-bottom-attriButes-single-attributes">
             <p className="attriButes-sort">
-              <img src={AddIcon} alt="add-icon" />
+              <img src={SortIcon} alt="add-icon" />
             </p>
             <p className="attriButes-title">Electronics</p>
 
@@ -85,7 +86,7 @@ const AtrDataList = ({ seVisible }) => {
           </div>
           <div className="q-attributes-bottom-attriButes-single-attributes">
             <p className="attriButes-sort">
-              <img src={AddIcon} alt="add-icon" />
+              <img src={SortIcon} alt="add-icon" />
             </p>
             <p className="attriButes-title">Electronics</p>
 
@@ -95,7 +96,7 @@ const AtrDataList = ({ seVisible }) => {
           </div>
           <div className="q-attributes-bottom-attriButes-single-attributes">
             <p className="attriButes-sort">
-              <img src={AddIcon} alt="add-icon" />
+              <img src={SortIcon} alt="add-icon" />
             </p>
             <p className="attriButes-title">Electronics</p>
 
@@ -105,7 +106,7 @@ const AtrDataList = ({ seVisible }) => {
           </div>
           <div className="q-attributes-bottom-attriButes-single-attributes">
             <p className="attriButes-sort">
-              <img src={AddIcon} alt="add-icon" />
+              <img src={SortIcon} alt="add-icon" />
             </p>
             <p className="attriButes-title">Electronics</p>
 
@@ -115,7 +116,7 @@ const AtrDataList = ({ seVisible }) => {
           </div>
           <div className="q-attributes-bottom-attriButes-single-attributes">
             <p className="attriButes-sort">
-              <img src={AddIcon} alt="add-icon" />
+              <img src={SortIcon} alt="add-icon" />
             </p>
             <p className="attriButes-title">Electronics</p>
 
@@ -125,7 +126,7 @@ const AtrDataList = ({ seVisible }) => {
           </div>
           <div className="q-attributes-bottom-attriButes-single-attributes">
             <p className="attriButes-sort">
-              <img src={AddIcon} alt="add-icon" />
+              <img src={SortIcon} alt="add-icon" />
             </p>
             <p className="attriButes-title">Electronics</p>
 
@@ -135,7 +136,7 @@ const AtrDataList = ({ seVisible }) => {
           </div>
           <div className="q-attributes-bottom-attriButes-single-attributes">
             <p className="attriButes-sort">
-              <img src={AddIcon} alt="add-icon" />
+              <img src={SortIcon} alt="add-icon" />
             </p>
             <p className="attriButes-title">Electronics</p>
 
