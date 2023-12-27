@@ -25,6 +25,8 @@
   
   .q-attributes-main-page {
     margin: 0px 40px;
+    background-color: #FFFFFF !important;
+ 
   }
   
   .q-attributes-top-detail-section {
@@ -76,23 +78,31 @@
     box-shadow: 0px 3px 6px #0000001f;
     border-radius: 8px !important;
     height: 800px;
+    background-color: #ffffff !important;
   }
   
   .q_copuon_header {
     width: 46%;
-  
     border: 1px solid #efefef;
     border-radius: 8px;
-    padding: 30px 0px;
+    padding: 10px 10px;
+    background-color: #FFFFFF !important;
+
   }
   .q_main_section_coupon{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     width: 100%;
-    gap: 1rem; /* Adjust the value as needed */
-  }
+    gap: 1rem; }
   
+  .q-coupon-bottom-header span {
+    color: #000000;
+    font-size: 18px;
+    font-family: CircularSTDMedium !important;
+}
+
+
 
 
 
@@ -102,7 +112,7 @@
     justify-content: space-between;
   }
   
-  /* Custom CSS for Toggle Button */
+  
   .toggle-checkbox {
     clip: rect(0, 0, 0, 0);
     height: 1px;
@@ -121,11 +131,11 @@
   }
   
   .toggle-label-enabled {
-    background-color: #4caf50; /* Green color for enabled state */
+    background-color: #4caf50; 
   }
   
   .toggle-label-disabled {
-    background-color: #ccc; /* Gray color for disabled state */
+    background-color: #ccc; 
   }
   
   .q_coupon_code {
@@ -216,7 +226,7 @@
     transform: translateX(26px);
   }
   
-  /* Rounded sliders */
+  
   .slider.round {
     border-radius: 34px;
   }
@@ -230,21 +240,21 @@
     display: flex;
     justify-content: space-between;
     border: 1px solid #f2f6ff;
-    background-color: #f2f6ff;
+    background-color: #FBFBFB;
     border-radius: 4px;
     text-align: center;
     padding: 5px 12px;
   }
+
   .q_coupon_page_details {
     display: flex;
     justify-content: space-between;
     width: 100%;
   }
   
-  /* Regular styles for your component */
+ 
   .q_copuon_header {
-    /* Your existing styles */
-    /* Add default styles here */
+   
     border: 2px solid #ccc;
     background-color: #f9f9f9;
   }
@@ -256,6 +266,24 @@
     box-shadow: 0px 0px 22px #8DB2FF7A;
   }
 
+  .q_coupon_status_btn .active .slider.round:checked {
+    background-color: #F2F6FF !important;
+    flex-direction: row;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #f2f6ff;
+   
+    border-radius: 4px;
+    text-align: center;
+    padding: 5px 12px;
+}
+
+
+ 
+
+  /* .q_coupon_status_btn:active {
+    background-color: #F2F6FF !important;} */
+ 
   .q_coupon_deatails_validtimes>p{
     color:#000;
     font-size: 15px;
@@ -285,10 +313,9 @@
     opacity: 1;
     letter-spacing: 0px;
     padding-left: 3px;
-    margin-top: 6px;
+    /* margin-top: 6px; */
   }
 
-  /* add coupon css */
 .q_coupon_Add_status_btn{
   display: flex;
     justify-content: space-between;
@@ -377,11 +404,18 @@
     .q_coupon_btn_discount{
         display: flex;
         background-color:#EEEEEE;
-    margin-top: 6%;
-    border-radius: 4px;
-    margin-left: -2rem;
+       margin-top: 6.5%;
+       border-radius: 4px;
+    /* margin-left: -2rem; */
 }
-    
+
+.q_datetimesection{
+  border: 1px solid gray;
+    padding: 20px;
+}
+
+
+
 /* media query */
 @media (max-width:376px) and (min-width:1250px) {
 
@@ -395,4 +429,73 @@
         background-color: #EEEEEE;
         margin-top: 6%;
         border-radius: 4px;
-    }}
+
+    }
+    .q_coupon_btn_discount{
+        display: flex;
+        background-color:#EEEEEE;
+    margin-top: 6.5%;
+    border-radius: 4px;
+}
+}
+
+
+@media (min-width:1450) {
+  .q_copuon_header {
+    width: 45%;
+    border: 1px solid #efefef;
+    border-radius: 8px;
+    padding: 10px 10px;
+    background-color: #FFFFFF !important;}
+  
+}
+
+
+
+@media screen and (min-device-width: 1456px) and (max-device-width: 1735px) { 
+  .q_copuon_header {
+    width: 45% !important;
+    border: 1px solid #efefef;
+    border-radius: 8px;
+    padding: 10px 10px;
+    background-color: #FFFFFF !important;}
+}
+
+@media only screen and (min-device-width: 1270px) and (max-device-width:1455px) {
+  .q_copuon_header {
+    width: 44% !important;
+    border: 1px solid #efefef;
+    border-radius: 8px;
+    padding: 10px 10px;
+    background-color: #FFFFFF !important;}
+} 
+@media only screen and (min-device-width: 1036px) and (max-device-width:1269px) {
+  .q_copuon_header {
+    width: 42% !important;
+    border: 1px solid #efefef;
+    border-radius: 8px;
+    padding: 10px 10px;
+    background-color: #FFFFFF !important;}
+} 
+
+@media only screen and (min-device-width: 959px) and (max-device-width:1035px) {
+  .q_copuon_header {
+    width: 41% !important;
+    border: 1px solid #efefef;
+    border-radius: 8px;
+    padding: 10px 10px;
+    background-color: #FFFFFF !important;}
+} 
+@media only screen and (min-device-width: 276px) and (max-device-width:958px) {
+  .q_copuon_header {
+    width:100% !important;
+    border: 1px solid #efefef;
+    border-radius: 8px;
+    padding: 10px 10px;
+    background-color: #FFFFFF !important;}
+} 
+.datetimepicker-control-section {
+  max-width: 246px;
+  margin: 30px auto;
+  padding-top: 50px;
+}

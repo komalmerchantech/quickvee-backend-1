@@ -57,7 +57,7 @@ const CouponDiscount = ({ seVisible }) => {
                 <p className="q_date_details">$6.00</p>
               </div>
               <div className="q_coupon_status_btn">
-                <p>show online</p>
+                <p>Show online</p>
                 <p>
                   <label className="switch">
                     <input
@@ -95,7 +95,7 @@ const CouponDiscount = ({ seVisible }) => {
                 <p className="q_date_details">$6.00</p>
               </div>
               <div className="q_coupon_status_btn">
-                <p>show online</p>
+                <p>Show online</p>
                 <p>
                   <label className="switch">
                     <input
@@ -133,7 +133,7 @@ const CouponDiscount = ({ seVisible }) => {
                 <p className="q_date_details">$6.00</p>
               </div>
               <div className="q_coupon_status_btn">
-                <p>show online</p>
+                <p>Show online</p>
                 <p>
                   <label className="switch">
                     <input
@@ -171,7 +171,7 @@ const CouponDiscount = ({ seVisible }) => {
                 <p className="q_date_details">$6.00</p>
               </div>
               <div className="q_coupon_status_btn">
-                <p>show online</p>
+                <p>Show online</p>
                 <p>
                   <label className="switch">
                     <input
