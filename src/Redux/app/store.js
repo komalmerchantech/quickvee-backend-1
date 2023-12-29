@@ -10,6 +10,8 @@ import onlineStoreOrderReducer from "../features/Orders/onlineStoreOrderSlice";
 
 import settingstoreoptionReducer from "../features/StoreSettingOption/StoreSettingOptionSlice";
 
+import taxesReducer from "../features/Taxes/taxesSlice"
+
 
 
 const store = configureStore({
@@ -21,9 +23,11 @@ const store = configureStore({
     inStoreOrder: inStoreOrderReducer,
     onlineStoreOrder: onlineStoreOrderReducer,
 
-    employeelistData:addEmployeeReducer
+    employeelistData:addEmployeeReducer,
 
     settingstoreoption: settingstoreoptionReducer,
+
+    taxes: taxesReducer
 
   },
   // middleware:(getDefaultMiddleware)=> getDefaultMiddleware().concat(logger),

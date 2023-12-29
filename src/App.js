@@ -22,6 +22,9 @@ import AddCoupon from "./Components/Coupons/AddCoupon";
 import MainReport from "./Components/ReportSetting/MainReport";
 import MainAddEmployee from "./Components/StoreSetting/AddEmployee/MainAddEmployee";
 
+import MainTaxes from "./Components/StoreSetting/SubSetting/Taxes/MainTaxes";
+
+
 // import Info from "./Components/StoreSetting/SubSetting/Info";
 
 
@@ -72,6 +75,8 @@ function App() {
           {/* <Route path="/store-settings/info"  element={<MainStoreOption />} /> */}
           <Route path="/store-settings/options"  element={<MainStoreOption />} />
           <Route path="/store-settings/addemployee"  element={<MainAddEmployee />} />
+          {/* for Taxes  */}
+          <Route path="/store-settings/taxes" element={<MainTaxes />} />
         
         </Route>
       </Routes>
