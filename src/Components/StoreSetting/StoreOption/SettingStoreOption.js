@@ -5,11 +5,11 @@ import "../../../Styles/StoreSetting.css"
 import "react-datepicker/dist/react-datepicker.css";
 // import { FiCalendar } from "react-icons/fi";
 import Switch from '@mui/material/Switch';
-import dayjs from 'dayjs';
-import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
+// import dayjs from 'dayjs';
+// import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
+// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+// import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
 import { useSelector, useDispatch } from "react-redux";
 import { BASE_URL, UPDATE_STORE_OPTIONS_DATA } from "../../../Constants/Config";
 import { fetchStoreSettingOptionData } from "../../../Redux/features/StoreSettingOption/StoreSettingOptionSlice";
@@ -34,6 +34,8 @@ export default function SettingStoreOption() {
   const [isAutoPrintKitchen, setisAutoPrintKitchen] = useState(false);
   const [isAutoPrintPayment, setisAutoPrintPayment] = useState(false);
   const [isGuestCheckout, setisGuestCheckout] = useState(false);
+  const [isDigitalMarketingTag, setisDigitalMarketingTag] = useState("");
+  const [isDigitalMarketingLink, setisDigitalMarketingLink] = useState("");
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -47,17 +49,19 @@ export default function SettingStoreOption() {
 
   const [allStoreUserData, setallStoreUserData] = useState();
   const [allStoreUserOption, setStoreUserOption] = useState();
+  const [allStoreTagList, setStoreTagList] = useState();
   const [newDayCountValue, setnewDayCountValue] = useState("");
   const [newSurchargeValue, setnewSurchargeValue] = useState("");
   const AllStoreSettingOptionDataState = useSelector((state) => state.settingstoreoption);
   useEffect(() => {
     if (
       !AllStoreSettingOptionDataState.loading &&
-      AllStoreSettingOptionDataState.storeoptionData && AllStoreSettingOptionDataState.storeoptionData.user_data && AllStoreSettingOptionDataState.storeoptionData.user_option_data
+      AllStoreSettingOptionDataState.storeoptionData && AllStoreSettingOptionDataState.storeoptionData.user_data && AllStoreSettingOptionDataState.storeoptionData.user_option_data || AllStoreSettingOptionDataState.storeoptionData.tag_list
     ) {
       // console.log(AllStoreSettingOptionDataState)
       setallStoreUserData(AllStoreSettingOptionDataState.storeoptionData.user_data );
       setStoreUserOption(AllStoreSettingOptionDataState.storeoptionData.user_option_data );
+      setStoreTagList(AllStoreSettingOptionDataState.storeoptionData.tag_list );
     }
   }, [
     AllStoreSettingOptionDataState,
@@ -107,7 +111,13 @@ export default function SettingStoreOption() {
       if (allStoreUserOption && allStoreUserOption.is_guest_checkout && allStoreUserOption.is_guest_checkout == 1) {
         setisGuestCheckout(true);
       }
-    }, [allStoreUserData , allStoreUserOption]);
+      if (allStoreTagList && allStoreTagList.tags) {
+        setisDigitalMarketingTag(allStoreTagList.tags)
+      }
+      if (allStoreTagList && allStoreTagList.links) {
+        setisDigitalMarketingLink(allStoreTagList.links)
+      }
+    }, [allStoreUserData , allStoreUserOption, allStoreTagList]);
 
     const changeDayCountHandler = (event) => {
       // console.log(event.target.value);
@@ -154,6 +164,12 @@ export default function SettingStoreOption() {
     const GuestCheckouttoggleInput = () => {
       setisGuestCheckout(!isGuestCheckout);
     };
+    const DigitalMarketingTagtoggleInput = (event) => {
+      setisDigitalMarketingTag(event.target.value);
+    };
+    const DigitalMarketingLinktoggleInput = (event) => {
+      setisDigitalMarketingLink(event.target.value);
+    };
     
     const handleUpdateSettingOption = async () => {
       const newItem = {
@@ -178,13 +194,15 @@ export default function SettingStoreOption() {
         onoffswitchkitchen: (isAutoPrintKitchen) ? "1" : "0",
         onoffswitchpayment: (isAutoPrintPayment) ? "1" : "0",
         onoffswitchguestcheckout: (isGuestCheckout) ? "1" : "0",
+        order_number: isResetOrderTime,
+        tags: isDigitalMarketingTag,
+        links: isDigitalMarketingLink,
       };
-      console.log(newItem);
       const data = newItem;
       const response = await axios.post(BASE_URL + UPDATE_STORE_OPTIONS_DATA, data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log(response);
+      console.log(response.data);
 
       if (response) {
         let merchantdata = {
@@ -213,7 +231,13 @@ export default function SettingStoreOption() {
 
           <div className="relative store-setting-pb-1">
             <div className="store-setting-gry Admin_std">Select Time</div>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <input 
+                type="time" 
+                value={isResetOrderTime} 
+                className="store-setting-alert-input" 
+                onChange={ResetOrderTimeHandler}
+              />
+              {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['MobileTimePicker']}>
                   <DemoItem>
                     <MobileTimePicker 
@@ -223,7 +247,7 @@ export default function SettingStoreOption() {
                     />
                   </DemoItem>
                 </DemoContainer>
-              </LocalizationProvider>
+              </LocalizationProvider> */}
           </div>
         </div>
 
@@ -358,6 +382,30 @@ export default function SettingStoreOption() {
           </span>
           <div className="relative store-setting-pb-1">
             <div className="store-setting-gry Admin_std">Enable Guest Checkout for Online Order?</div>
+          </div>
+        </div>
+
+
+        <div className="store-setting-main-div">
+          <h2 className="store-setting-h2"><b>Digital Marketing Tags</b></h2>
+          <div className="store-setting-head-div box-padding-5">Add Tags</div>
+          <div className="store-setting-input-div">
+            <input 
+              type="text" 
+              value={isDigitalMarketingTag} 
+              className="store-setting-alert-input" 
+              onChange={DigitalMarketingTagtoggleInput} 
+            />
+          </div>
+
+          <div className="store-setting-head-div">Add link</div>
+          <div className="store-setting-input-div">
+            <input 
+              type="text" 
+              value={isDigitalMarketingLink} 
+              className="store-setting-alert-input" 
+              onChange={DigitalMarketingLinktoggleInput} 
+            />
           </div>
         </div>
 
