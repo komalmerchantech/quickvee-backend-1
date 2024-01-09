@@ -50,6 +50,7 @@ import MainResigtersetting from "./Components/StoreSetting/ResigterSetting/MainR
 import "./Styles/ResigterSettingdata.css";
 import ReceiptMainpage from "./Components/StoreSetting/Receipt/ReceiptMainpage";
 import DailyTtlReport from "./Components/Reporting/DailyReport/DailyTtlReport";
+import CheckIDVerifyMain from "./Components/Reporting/CheckIDVerify/CheckIDVerifyMain";
 
 
 
@@ -91,6 +92,7 @@ function App() {
           <Route path="/store-settings/register" element={<MainResigtersetting />} />
           <Route path="/store-settings/receipt" element={<ReceiptMainpage />} />
           <Route path="/store-settings/daily-total-report" element={<DailyTtlReport />}/>
+          <Route path="/store-settings/id-verification" element={<CheckIDVerifyMain />}/>
         
 
         </Route>

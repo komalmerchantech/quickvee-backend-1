@@ -81,5 +81,7 @@ module.exports = Object.freeze({
       DELETE_SINGLE_TAXE: "Taxesapi/delete_tax",
       TAXE_CATEGORY_LIST: "Taxesapi/Taxes_category_list",
 
+      // All Reports API
+      CHECKID_VARIFICATION_REPORT_LIST:"ReportingReactapi/checkID_varification_report_list",
     
   });

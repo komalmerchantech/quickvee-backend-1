@@ -24,6 +24,7 @@ import settingstorealtersReducer from "../features/SettingStoreAlters/SettingSto
 
 import SettingReceiptReducer from "../features/StoreSettings/SettingsReceipt/SettingsReceiptSlice";
 import PurchaseOrderReducer from "../features/PurchaseOrder/purchaseOrderSlice"
+import CheckIDVerifyListReducer from "../features/Reports/CheckIDVerify/CheckIDVerifySlice";
 
 
 const store = configureStore({
@@ -49,7 +50,7 @@ const store = configureStore({
 
 
     SettingReceiptList: SettingReceiptReducer,
-
+    CheckIDVerifyList:CheckIDVerifyListReducer,
 
    
 
