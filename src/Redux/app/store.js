@@ -46,6 +46,7 @@ import ReorderInventoryListReducer from "../features/Reports/ReorderInventory/Re
 import OrderTypeReducer from "../features/OrderType/OrderTypeSlice";
 
 import TaxesreportSliceReducer from "../features/TaxesReport/taxesreportSlice";
+import DefaultsSliceReducer from "../features/Defaults/defaultsSlice";
 
 
 
@@ -101,7 +102,9 @@ const store = configureStore({
     //Order Type
     orderTypeList:OrderTypeReducer,
 
-    taxesreport:TaxesreportSliceReducer
+    taxesreport:TaxesreportSliceReducer,
+
+    defaults: DefaultsSliceReducer,
 
 
   },

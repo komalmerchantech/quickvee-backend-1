@@ -18,6 +18,10 @@ module.exports = Object.freeze({
     EDIT_CATOGRY_DATA:"CategoryReactapi/category_data",
 
 
+    // Defaults API Calls 
+    LIST_ALL_Defaults : "DefaultReactapi/Default_list",
+
+
     //Attributes API Calls
     LIST_ALL_ATTRIBUTES:"Varientsapi/varients_list",
     ADD_ATTRIBUTE:"Varientsapi/add_varient",
