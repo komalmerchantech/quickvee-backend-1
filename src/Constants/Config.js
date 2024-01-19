@@ -20,7 +20,8 @@ module.exports = Object.freeze({
 
     // Defaults API Calls 
     LIST_ALL_Defaults : "DefaultReactapi/Default_list",
-
+    ADD_DEFAULTS : "DefaultReactapi/AddDefaultMenu",
+    DELETE_SINGLE_DEFAULTS : "DefaultReactapi/deleteMenu",
 
     //Attributes API Calls
     LIST_ALL_ATTRIBUTES:"Varientsapi/varients_list",

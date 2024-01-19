@@ -1,7 +1,7 @@
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios';
-import { BASE_URL, LIST_ALL_Defaults} from "../../../Constants/Config"
+import { BASE_URL, LIST_ALL_Defaults , DELETE_SINGLE_DEFAULTS} from "../../../Constants/Config"
 
 
 const initialState = {
@@ -13,7 +13,7 @@ const initialState = {
 
 
 // Generate pening , fulfilled and rejected action type
-export const fetchdefaultsData = createAsyncThunk('defaults/fetchdefaultsData.', async () => {
+export const fetchdefaultsData = createAsyncThunk('defaults/fetchdefaultsData', async () => {
     try {
         const response = await axios.post(BASE_URL + LIST_ALL_Defaults, { headers: { "Content-Type": "multipart/form-data" } })
         if (response.data.status === "Success") {
@@ -27,6 +27,25 @@ export const fetchdefaultsData = createAsyncThunk('defaults/fetchdefaultsData.',
     }
 })
 // Generate pening , fulfilled and rejected action type
+
+
+export const deleteDefaultsData = createAsyncThunk('defaults/deleteDefaultsData', async (data) => {
+
+    try {
+        const response = await axios.post(BASE_URL + DELETE_SINGLE_DEFAULTS, data, {
+            headers: { "Content-Type": "multipart/form-data" }
+        });
+      if(response){
+        console.log(response)
+        return {
+            defaultsId:data.id
+        }
+      }
+        
+    } catch (error) {
+        throw new Error(error.response.data.message);
+    }
+});
 
 
 
@@ -48,6 +67,22 @@ const defaultsSlice = createSlice({
             state.defaultsData = {};
             state.error = action.error.message;
         })
+
+
+        builder.addCase(deleteDefaultsData.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(deleteDefaultsData.fulfilled, (state, action) => {
+            state.loading = false;
+            state.successMessage = action.payload.message;
+            state.defaultsData = state.defaultsData.filter((item) => item && item.id !== action.payload.categoryId);
+
+            state.error = ''; // Reset the error message
+        });
+        builder.addCase(deleteDefaultsData.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.error.message;
+        });
 
     }
 })

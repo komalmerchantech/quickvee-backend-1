@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { fetchdefaultsData } from "../../Redux/features/Defaults/defaultsSlice";
+import { fetchdefaultsData , deleteDefaultsData} from "../../Redux/features/Defaults/defaultsSlice";
 
 import AddIcon from "../../Assests/Category/addIcon.svg";
 import DeleteIcon from "../../Assests/Category/deleteIcon.svg";
@@ -23,7 +23,7 @@ const DefaultsDetail = ({ seVisible }) => {
 
   useEffect(() => {
     dispatch(fetchdefaultsData());
-  }, dispatch);
+  }, []);
 
   useEffect(() => {
     if (!defaultsDataState.loading && defaultsDataState.defaultsData) {
@@ -68,6 +68,31 @@ const DefaultsDetail = ({ seVisible }) => {
     const allChecked = updatedDefaults.every((item) => item.isChecked);
     setHeaderCheckboxChecked(allChecked);
   };
+
+
+
+
+  // for Delete star 
+  const handleDeleteDefaults = (id) => {
+    const data = {
+      id: id,
+    };
+   
+    const userConfirmed = window.confirm("Are you sure you want to delete this Default?");
+    if (userConfirmed) {
+      if (id) {
+        // dispatch(deleteDefaultsData(data));
+        dispatch(deleteDefaultsData(data)).then(() => {
+          // After successful deletion, fetch the updated data
+          dispatch(fetchdefaultsData());
+        });
+      }
+    } else {
+      console.log("Deletion canceled by Default");
+    }
+
+  };
+
 
 
   return (
@@ -145,13 +170,13 @@ const DefaultsDetail = ({ seVisible }) => {
                      
                       <img
                         className='edit_center pr-10'
-                        selectedCategory={defaultsdata}
+                        selectedDefaults={defaultsdata}
                         src={EditIcon}
                         alt="Edit"
                       />
                     </Link> 
 
-                  <img src={DeleteIcon} alt="delete-icon" />
+                  <img src={DeleteIcon} alt="delete-icon" onClick={() => handleDeleteDefaults(defaultsdata.id)} />
                 </p>
               </div>
             ))}
