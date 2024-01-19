@@ -32,3 +32,4 @@ const DefaultPagination = ({ totalEntries, entriesPerPage, page, onChange }) => 
 };
 
 export default DefaultPagination;
+

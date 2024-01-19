@@ -90,7 +90,7 @@ const SideMenu = ({ isMenuOpen, setIsMenuToggle }) => {
               ))
             : menuItems.map((item) => (
                 <div
-                  key={item.id}
+                  key={item.id }
                   className={`mb-4 text-base cursor-pointer ${
                     activeItem === item.link ? "active" : ""
                   }`}
@@ -121,6 +121,7 @@ const SideMenu = ({ isMenuOpen, setIsMenuToggle }) => {
 
 const DropdownMenuItem = ({ item }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
 
   const handleToggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
