@@ -14,6 +14,15 @@ const AddDefaults = ({ seVisible }) => {
     type: "",
     image: "", // New property for the image file
   });
+
+  const [fieldErrors, setFieldErrors] = useState({
+    name: "",
+    type: "",
+    image: "",
+  });
+
+
+
   const inputChange = (e) => {
     const { name, value } = e.target;
     setDefaults((preValue) => {
@@ -22,6 +31,11 @@ const AddDefaults = ({ seVisible }) => {
         [name]: value,
       };
     });
+
+    setFieldErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
   };
 
   const handleTypeChange = (e) => {
@@ -29,23 +43,64 @@ const AddDefaults = ({ seVisible }) => {
       ...prevValue,
       type: e.target.value,
     }));
+
+    // Clear error message when user selects a type
+    setFieldErrors((prevErrors) => ({
+      ...prevErrors,
+      type: "",
+    }));
   };
+
+  const validateForm = () => {
+    let valid = true;
+    const newFieldErrors = {};
+
+    // Validate name
+    if (!defaults.name.trim()) {
+      newFieldErrors.name = "Name is required";
+      valid = false;
+    }else if (/\d/.test(defaults.name)) {
+      // Check if the name contains any numbers
+      newFieldErrors.name = "Only Alphabets are allowed.";
+      valid = false;
+    }
+
+    // Validate type
+    if (!defaults.type.trim() || defaults.type === "Select") {
+      newFieldErrors.type = "Type is required";
+      valid = false;
+    }
+
+
+    // Validate image
+    if (!defaults.image || !defaults.image.base64) {
+      newFieldErrors.image = "Image is required";
+      valid = false;
+    }
+
+    setFieldErrors(newFieldErrors);
+    return valid;
+  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      // Form is not valid, do not proceed
+      return;
+    }
+
 
     const formData = new FormData();
 
     // Append your tax data
     formData.append("name", defaults.name);
     formData.append("type", defaults.type);
- 
+
     if (defaults.image && defaults.image.base64) {
       formData.append("image", defaults.image.base64);
       formData.append("filename", defaults.image.file.name);
-    } else {
-      formData.append("image", "");
-      formData.append("filename", "");
     }
 
     try {
@@ -57,20 +112,15 @@ const AddDefaults = ({ seVisible }) => {
       // alert(data);
       const update_message = await res.data.msg;
       // alert(update_message);
-      if (data == "Success") {
+      if (data === "Success") {
         seVisible("DefaultsDetail");
         // alert(update_message)
       } else if (
-        data == "Failed" &&
-        update_message == "Default Menu Entered Already Exits"
+        data === "Failed" &&
+        update_message === "Default Menu Entered Already Exits"
       ) {
-        setErrorMessage(update_message);
-      } else if (data == "Failed" && update_message == "*Please enter title") {
-        setErrorMessage(update_message);
-      } else {
-        alert(update_message);
-        seVisible("DefaultsDetail");
-      }
+        setErrorMessage("Default Menu Already Exits");
+      } 
     } catch (error) {
       console.error("API Error:", error);
     }
@@ -86,7 +136,7 @@ const AddDefaults = ({ seVisible }) => {
     inputRef.current.click();
   };
 
-  const handleDragOver =  (e) => {
+  const handleDragOver = (e) => {
     e.preventDefault();
   };
 
@@ -137,6 +187,14 @@ const AddDefaults = ({ seVisible }) => {
     }));
   };
 
+  const handleKeyPress = (e) => {
+    // Check if the pressed key is a number
+    if (/\d/.test(e.key)) {
+      e.preventDefault(); // Prevent input of numbers
+      alert("Only Alphabets are allowed.");
+    }
+  };
+
   return (
     <>
       <div className="q-category-main-page ">
@@ -155,21 +213,29 @@ const AddDefaults = ({ seVisible }) => {
               </div>
               <div className="q-add-categories-section-middle-form">
                 <div className="q-add-categories-single-input">
-                  <label for="name">Name</label>
+                  <label htmlFor="name">Name</label>
                   <input
                     type="text"
                     name="name"
                     value={defaults.name}
                     onChange={inputChange}
+                    onKeyPress={(e) => handleKeyPress(e)}
                   />
                 </div>
                 {errorMessage && (
-              <span className="error-message" style={{ color: "red" }}>
-                {errorMessage}
-              </span>
-            )}
+                  <span className="error-message" style={{ color: "red" }}>
+                    {errorMessage}
+                  </span>
+                )}
+                {fieldErrors.name && (
+                  <span className="error-message" style={{ color: "red" }}>
+                    {fieldErrors.name}
+                  </span>
+                )}
+
+
                 <div className="q-add-categories-single-input mb-5">
-                  <label for="type" className="mb-3">
+                  <label htmlFor="type" className="mb-3">
                     Type
                   </label>
                   <div className="flex-1 mb-2 sm:mb-0 ">
@@ -177,7 +243,7 @@ const AddDefaults = ({ seVisible }) => {
                       id="categoryFilter"
                       name="type"
                       value={defaults.type}
-                      onChange={handleTypeChange} 
+                      onChange={handleTypeChange}
                       className="w-full bg-white text-[#000000] text-[18px] Admin_std  px-1 py-3 border border-gray-300 focus:outline-none rounded"
                     >
                       <option> Select</option>
@@ -185,6 +251,11 @@ const AddDefaults = ({ seVisible }) => {
                     </select>
                   </div>
                 </div>
+                {fieldErrors.type && (
+                  <span className="error-message" style={{ color: "red" }}>
+                    {fieldErrors.type}
+                  </span>
+                )}
 
                 <div
                   className={`h-1/2  h-[100px] flex items-center justify-center border-2 border-dashed border-[#BFBFBF] bg-white rounded-lg mt-2 `}
@@ -226,7 +297,7 @@ const AddDefaults = ({ seVisible }) => {
                       <img
                         src={Upload}
                         style={{ transform: "translate(2.5rem, 0px)" }}
-                        alt="Default Image"
+                        alt="Default"
                       />
                       <span>Default Image</span>
                     </div>
@@ -243,6 +314,11 @@ const AddDefaults = ({ seVisible }) => {
                     />
                   </div>
                 </div>
+                {fieldErrors.image && (
+                  <span className="error-message" style={{ color: "red" }}>
+                    {fieldErrors.image}
+                  </span>
+                )}
               </div>
 
               <div className="q-add-categories-section-middle-footer">

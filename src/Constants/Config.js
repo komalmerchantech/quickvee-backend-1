@@ -21,7 +21,9 @@ module.exports = Object.freeze({
     // Defaults API Calls 
     LIST_ALL_Defaults : "DefaultReactapi/Default_list",
     ADD_DEFAULTS : "DefaultReactapi/AddDefaultMenu",
+    DEFAULTDATA:"DefaultReactapi/DefaultData_list",
     DELETE_SINGLE_DEFAULTS : "DefaultReactapi/deleteMenu",
+    DELETE_MULTI_DEFAULTS : "DefaultReactapi/deleteSelectedDefaults",
 
     //Attributes API Calls
     LIST_ALL_ATTRIBUTES:"Varientsapi/varients_list",
@@ -112,8 +114,6 @@ module.exports = Object.freeze({
 
 
 
-            // for daily Report 
-            LIST_DAILY_REPORT : "ReportingReactapi/daily_total_report",
     
             TOP_SALLER_REPORT : "ReportingReactapi/top_seller_10",
             INSTANT_ACTIVITY_REPORT : "ReportingReactapi/instant_po_activity_report",

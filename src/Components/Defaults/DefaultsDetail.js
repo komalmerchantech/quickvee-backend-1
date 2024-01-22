@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { fetchdefaultsData , deleteDefaultsData} from "../../Redux/features/Defaults/defaultsSlice";
+import { fetchdefaultsData , deleteDefaultsData, deleteDefaultsMultiData} from "../../Redux/features/Defaults/defaultsSlice";
 
 import AddIcon from "../../Assests/Category/addIcon.svg";
 import DeleteIcon from "../../Assests/Category/deleteIcon.svg";
@@ -81,9 +81,7 @@ const DefaultsDetail = ({ seVisible }) => {
     const userConfirmed = window.confirm("Are you sure you want to delete this Default?");
     if (userConfirmed) {
       if (id) {
-        // dispatch(deleteDefaultsData(data));
         dispatch(deleteDefaultsData(data)).then(() => {
-          // After successful deletion, fetch the updated data
           dispatch(fetchdefaultsData());
         });
       }
@@ -93,6 +91,31 @@ const DefaultsDetail = ({ seVisible }) => {
 
   };
 
+
+  // for selected check box item Delete start
+  const handleDeleteDefaultSelected = () => {
+
+    const checkedIds = defaults
+    .filter((item) => item.isChecked)
+    .map((checkedItem) => checkedItem.id);
+
+    if (checkedIds.length === 0) {
+      alert("Please select defaults for delete");
+    }else{
+      const data = {
+        selectedIds: checkedIds,
+      };
+      const userConfirmed = window.confirm("Are you sure you want to delete this Default?");
+      if (userConfirmed) {
+        dispatch(deleteDefaultsMultiData(data)).then(() => {
+          dispatch(fetchdefaultsData());
+        });
+      } else {
+        console.log("Deletion canceled by Default");
+      }
+    }
+  }
+  // for selected check box item Delete End
 
 
   return (
@@ -124,13 +147,13 @@ const DefaultsDetail = ({ seVisible }) => {
                   </label>
                 </div>
               </p>
-              <p className="categories-title">Name</p>
+              <p className="categories-title" style={{  textTransform: 'none'}}>Name</p>
               <p className="categories-title">Type</p>
               <p
                 className="categories-enable-disable"
                 style={{ display: "flex", justifyContent: "end" }}
               >
-                <img src={DeleteIconAll} alt="delete-icon" />
+                <img src={DeleteIconAll} alt="delete-icon" onClick={() => handleDeleteDefaultSelected()}/>
               </p>
             </div>
 
@@ -151,7 +174,7 @@ const DefaultsDetail = ({ seVisible }) => {
                     </label>
                   </div>
                 </p>
-                <p className="categories-title">{defaultsdata.name}</p>
+                <p className="categories-title" style={{  textTransform: 'none'}}>{defaultsdata.name}</p>
                 <p className="categories-title">
                   {defaultsdata.type === "1"
                     ? "Collection"

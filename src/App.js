@@ -80,6 +80,7 @@ import MainItemSales from "./Components/Reporting/ItemSales/MainItemSales";
 import MainEmployeelist from "./Components/Reporting/Employelist/MainEmployeelist";
 import MainTaxesReport from "./Components/Reporting/Taxes/MainTaxesReport"
 import MainDefaults from "./Components/Defaults/MainDefaults";
+import EditDefaults from "./Components/Defaults/EditDefaults";
 
 
 
@@ -159,6 +160,8 @@ function App() {
 
 
           <Route path="/defaults" element={<MainDefaults />}/>
+
+          <Route path="/defaults/edit-defaults/:defaultsCode" element={<EditDefaults />} />
 
 
           
