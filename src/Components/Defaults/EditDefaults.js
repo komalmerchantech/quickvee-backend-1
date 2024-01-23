@@ -5,7 +5,7 @@ import axios from "axios";
 
 import Upload from "../../Assests/Category/upload.svg";
 import { Link, useParams } from "react-router-dom";
-import {  BASE_URL,  DEFAULTDATA} from "../../Constants/Config";
+import {  BASE_URL, DEFAULTDATA , EDIT_DEFAULTS } from "../../Constants/Config";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
@@ -119,10 +119,6 @@ const EditDefaults = () => {
 
 
     // Validate image
-    if (!defaults.image || !defaults.image.base64) {
-      newFieldErrors.image = "Image is required";
-      valid = false;
-    }
 
     setFieldErrors(newFieldErrors);
     return valid;
@@ -131,16 +127,14 @@ const EditDefaults = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    
     if (!validateForm()) {
       // Form is not valid, do not proceed
-      return;
+      return ;
     }
 
-
     const formData = new FormData();
-
-    // Append your tax data
+    formData.append("id", defaults.id);
     formData.append("name", defaults.name);
     formData.append("type", defaults.type);
 
@@ -151,33 +145,22 @@ const EditDefaults = () => {
       formData.append("image", "");
       formData.append("filename", "");
     }
+    try {
+      const res = await axios.post(BASE_URL + EDIT_DEFAULTS, formData, { headers: { "Content-Type": "multipart/form-data" } })
 
-    // try {
-
-    //   const res = await axios.post(BASE_URL + ADD_DEFAULTS, formData, { headers: { "Content-Type": "multipart/form-data" } })
-
-    //   const data = await res.data.status;
-    //   // console.log(res.data);
-    //   // alert(data);
-    //   const update_message = await res.data.msg;
-    //   // alert(update_message);
-    //   if (data == "Success") {
-    //     seVisible("DefaultsDetail");
-    //     // alert(update_message)
-    //   } else if (
-    //     data == "Failed" &&
-    //     update_message == "Default Menu Entered Already Exits"
-    //   ) {
-    //     setErrorMessage(update_message);
-    //   } else if (data == "Failed" && update_message == "*Please enter title") {
-    //     setErrorMessage(update_message);
-    //   } else {
-    //     alert(update_message);
-    //     seVisible("DefaultsDetail");
-    //   }
-    // } catch (error) {
-    //   console.error("API Error:", error);
-    // }
+      const data = await res.data.status;
+      const update_message = await res.data.msg;
+      if (data == "Success") {
+        navigate("/defaults");
+      } else if (
+        data == "Failed" &&
+        update_message == "Default Title Already Exist!"
+      ) {
+        setErrorMessage(update_message);
+      } 
+    } catch (error) {
+      console.error("API Error:", error);
+    }
 
 
 
@@ -251,7 +234,7 @@ const EditDefaults = () => {
       <div className="q-category-main-page ">
         <div className="q-add-categories-section">
           <div className="mt-10">
-            <form onSubmit={handleSubmit} >
+            <form onSubmit={handleSubmit} enctype="multipart/form-data">
               <div className="q-add-categories-section-header">
                 <Link to={`/defaults`}>
                   <span style={myStyles}>
@@ -382,7 +365,7 @@ const EditDefaults = () => {
               </div>
 
               <div className="q-add-categories-section-middle-footer">
-                <button className="quic-btn quic-btn-save">Save</button>
+                <button className="quic-btn quic-btn-save" >Save</button>
                 <Link to={`/defaults`}>
                   <button className="quic-btn quic-btn-cancle" >Cancel</button>
                 </Link>

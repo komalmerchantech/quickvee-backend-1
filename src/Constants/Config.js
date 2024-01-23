@@ -21,6 +21,7 @@ module.exports = Object.freeze({
     // Defaults API Calls 
     LIST_ALL_Defaults : "DefaultReactapi/Default_list",
     ADD_DEFAULTS : "DefaultReactapi/AddDefaultMenu",
+    EDIT_DEFAULTS : "DefaultReactapi/updateDefaultMenu",
     DEFAULTDATA:"DefaultReactapi/DefaultData_list",
     DELETE_SINGLE_DEFAULTS : "DefaultReactapi/deleteMenu",
     DELETE_MULTI_DEFAULTS : "DefaultReactapi/deleteSelectedDefaults",

@@ -101,20 +101,17 @@ const AddDefaults = ({ seVisible }) => {
     if (defaults.image && defaults.image.base64) {
       formData.append("image", defaults.image.base64);
       formData.append("filename", defaults.image.file.name);
+    }else {
+      formData.append("image", "");
+      formData.append("filename", "");
     }
 
     try {
-
       const res = await axios.post(BASE_URL + ADD_DEFAULTS, formData, { headers: { "Content-Type": "multipart/form-data" } })
-
       const data = await res.data.status;
-      // console.log(res.data);
-      // alert(data);
       const update_message = await res.data.msg;
-      // alert(update_message);
       if (data === "Success") {
         seVisible("DefaultsDetail");
-        // alert(update_message)
       } else if (
         data === "Failed" &&
         update_message === "Default Menu Entered Already Exits"
