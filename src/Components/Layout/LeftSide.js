@@ -58,6 +58,7 @@ import EditVendors from "../Vendors/EditVendors";
 import SingleVendorsDetail from "../Vendors/SingleVendorsDetail";
 import AddProducts from "../Products/AddProducts"
 import MainLoayalty from "../LoyaltyProgram/MainLoayalty";
+import EditCoupon from "../Coupons/EditCoupon";
 //  import OrderSummeryPage from "../Reporting/orderSummeryPage/orderSummery";
 
 
@@ -88,6 +89,7 @@ const LeftSide = ({ visible }) => {
           {visible === "products" && <MainProducts />}
 
           {visible === "coupons" && <MainCoupon />}
+          {visible === "coupons-edit-cop" && <EditCoupon />}
           {visible === "vendors" && <MainVendors />}
           {visible === "timesheet" && <MainTimesheet />}
           {visible === "import-data" && <MainImportData />}

@@ -131,6 +131,10 @@ function App() {
         element={<Main visible={"loyalty-program"} />}
       />
       <Route exact path="/coupons" element={<Main visible={"coupons"} />} />
+      <Route
+        exact
+        path="/coupons/edit-coupons/:couponsCode"
+        element={<Main visible={"coupons-edit-cop"} />} />
       <Route exact path="/vendors" element={<Main visible={"vendors"} />} />
       <Route exact path="/vendors/edit-vendor/:code" element={<Main visible={"edit-vendor"} />} />
       <Route exact path="/vendors/vendor-details/:code" element={<Main visible={"vendor-details"} />} />

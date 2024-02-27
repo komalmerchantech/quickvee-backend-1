@@ -344,12 +344,14 @@ input:checked + .slider:before {
 .q_coupon_status_btn {
   flex-direction: row;
   display: flex;
+  align-items: center;
   justify-content: space-between;
   border: 1px solid #f2f6ff;
   background-color: #FBFBFB;
   border-radius: 4px;
   text-align: center;
   padding: 5px 12px;
+  margin: 5px 10px;
 }
 
 .q_coupon_page_details {
@@ -368,7 +370,7 @@ input:checked + .slider:before {
 
 /* Styles for the active state */
 .q_copuon_header.active {
-  border: 2px solid blue;
+  border: 2px solid #0A64F9;
   background-color: white;
   box-shadow: 0px 0px 22px #8DB2FF7A;
  
@@ -512,11 +514,11 @@ font-size: 18px;
       width:36rem;
   }
   .q_coupon_btn_discount{
-      display: flex;
-      background-color:#EEEEEE;
-     margin-top: 6.5%;
-     border-radius: 4px;
-  /* margin-left: -2rem; */
+    display: flex;
+    background-color: #EEEEEE;
+    margin-top: 6.5%;
+    border-radius: 0 4px 4px 0;
+    padding: 4px;
 }
 
 .q_datetimesection{
@@ -767,4 +769,109 @@ img.clock_design{
 
 .MuiFormControl-root.MuiTextField-root.input_label_section.css-z3c6am-MuiFormControl-root-MuiTextField-root {
   margin-left: -39px;
+}
+
+.q_copuon_header.active .q_coupon_status_btn {
+  background: #F2F6FF 0% 0% no-repeat padding-box;
+
+}
+
+
+.delet-icon{
+  cursor: pointer;
+}
+
+.container_q_main_section_coupon{
+  margin-left: 0.7rem;
+}
+.add_coupon_span{
+  width: 10rem !important;
+  align-items: center;
+}
+
+.q-add-categories-section-middle-form>.q_coupon_calculation_amount input {
+  width:100%;
+}
+.col_minimun_order_amount{
+  width: 49%;
+}
+.col_minimun_order_amount .q_coupon_minium{
+  width: 50%;
+}
+.dicount_per_amo{
+  display: flex;
+}
+.q_tab_percentage_amount{
+  width: 50%;
+  margin-top: 5px;
+}
+.q_tab_percentage_amount .text-white{
+  border-radius: 4px ;
+}
+
+.q_coupon_calculation_amount {
+  gap: 1rem;
+}
+.q_coupon_btn_discount div{
+  width: 50%;
+  padding: 4px;
+}
+.mini_dis_Amt{
+  width: 100%;
+}
+
+.mini_order_DIS {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.mini_order_DIS .col__6{
+  width: 49%;
+}
+.mini_order_DIS .col__6 .col_minimun_order_amount, .mini_order_DIS .col__6 .col_minimun_order_amount input{
+  width: 100%;
+}
+
+.edit_mini_dis_Amt input{
+  width: 100%;
+
+}
+
+#count_limit[type=number]::-webkit-inner-spin-button, #count_limit[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+#count_limit[type=number]{
+  -moz-appearance: textfield; 
+}
+
+#minorder_amt[type=number]::-webkit-inner-spin-button, #minorder_amt[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+#minorder_amt[type=number]{
+  -moz-appearance: textfield; 
+}
+
+#discount_amt[type=number]::-webkit-inner-spin-button, #discount_amt[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+#discount_amt[type=number]{
+  -moz-appearance: textfield; 
+}
+
+
+.datetime__picker {
+  display: flex;
+}
+
+.dividersss {
+  width: 1px;
+  height: 80%;
+  background-color: #E3E3E3;
+
+  transform: translate(1.5rem , 0.3rem);
+
+
 }

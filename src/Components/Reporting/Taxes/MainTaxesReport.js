@@ -176,14 +176,16 @@ const MainTaxesReport = () => {
         </div>
       </div>
   </div>
-  <div className='q-order-main-page'>
+  <div className='box '>
     <DateRange onDateRangeChange={handleDataFiltered} />
 
   </div>
   
-  <div className='q-order-main-page'>
+  <div className='mt-8'>
+  <div className='box '>
     <TaxesDetails data={filteredData}  />
 
+  </div>
   </div>
   </div>
   </>

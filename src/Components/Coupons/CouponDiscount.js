@@ -7,6 +7,8 @@ import Edit from "../../Assests/Dashboard/edit.svg";
 import axios from "axios";
 import { fetchCouponList, updateStatus ,deleteCoupon } from "../../Redux/features/Coupon/couponSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import Switch from '@mui/material/Switch';
 
 import { BASE_URL, COUPON_STATUS_UPDATE } from "../../Constants/Config";
 
@@ -35,7 +37,7 @@ const CouponDiscount = ({ seVisible }) => {
       AllCouponDataState.couponData
     ) {
       setAllCoupon(AllCouponDataState.couponData);
-      console.log(AllCouponDataState.couponData);
+      // console.log(AllCouponDataState.couponData);
     }
   }, [
     AllCouponDataState,
@@ -77,6 +79,7 @@ const CouponDiscount = ({ seVisible }) => {
     }
   }
 
+  const label = { inputProps: { 'aria-label': 'Switch demo' } };
   return (
     <>
       
@@ -90,6 +93,9 @@ const CouponDiscount = ({ seVisible }) => {
               Add New Coupon <img src={AddIcon} alt="add-icon" />
             </p>
           </div>
+          <div className="container_q_main_section_coupon">
+
+         
           <div className="q_main_section_coupon">
             {couponList && couponList.length >= 1 && couponList.map((coupons, index) => (
               <div key={index} className={`q_copuon_header mx-6 ${coupons.show_online == 1 ? "active" : ""}`}>
@@ -98,8 +104,11 @@ const CouponDiscount = ({ seVisible }) => {
                     <p>{coupons.name}</p>
                   </div>
                   <div className="flex space-x-2 p-4">
+                  <Link to={`/coupons/edit-coupons/${coupons.id}`}>
                     <img src={Edit} alt="" className="h-8 w-8" />
-                    <img src={DeletIcon} alt="delet" className="h-8 w-8" onClick={() => handleDeleteCoupon(coupons.id)} />
+
+                  </Link>
+                    <img src={DeletIcon} alt="delet" className="h-8 w-8 delet-icon" onClick={() => handleDeleteCoupon(coupons.id)} />
                   </div>
                 </div>
                 <div className="q_discount_coupon_Code">
@@ -115,17 +124,23 @@ const CouponDiscount = ({ seVisible }) => {
                 </div>
                 <div className="q_coupon_status_btn">
                   <p>Show online</p>
-                  <p>
-                    <label className="switch">
-                      <input type="checkbox" checked={coupons.show_online == 1 ? true : false} onChange={(e) => handleCheckboxChange(coupons.id, e.target.checked)} />
-                      <span className="slider round"></span>
-                    </label>
-                  </p>
+
+                  <Switch checked={coupons.show_online == 1 ? true : false} onChange={(e) => handleCheckboxChange(coupons.id, e.target.checked)}
+                    sx={{
+                      '& .MuiSwitch-switchBase.Mui-checked': {
+                        color: '#0A64F9', // Change color when switch is checked
+                      },
+                      '& .MuiSwitch-track': {
+                        backgroundColor: '#0A64F9', // Change background color of the track
+               
+                      },
+                    }} />
                 </div>
               </div>
             ))}
 
 
+          </div>
           </div>
 
         </div>
