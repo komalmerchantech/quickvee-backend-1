@@ -97,6 +97,7 @@ const ProductTable = ({selectedListingType,selectedListingTypeValue,productsList
       listing_type = 0;
     }
     //let page = productsList.length / 10 + 1 ;
+    
     console.log(page+'page');
     console.log(productsList);
     let data1 = {
