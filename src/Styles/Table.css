@@ -113,3 +113,24 @@ table.dataTable tbody td {
 /* .order_status_details_quivkwee{
     color:red
 } */
+
+
+
+/* for new table css start  */
+.table_custome{
+    font-family: CircularSTDBook !important;
+}
+.table__header{
+    background: #253338;
+    color: #FFFFFF;
+    font-size: 15px;
+    font-family: CircularSTDBook !important;
+}
+.table__header th,.table__body td{
+    padding: 6px 12px;
+}
+.table__body{
+    background: #fff;
+    border-bottom: 1px solid #e8e8e8;
+}
+/* for new table css End */

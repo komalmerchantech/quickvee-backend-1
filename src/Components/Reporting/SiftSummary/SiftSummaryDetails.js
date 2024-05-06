@@ -36,7 +36,93 @@ const SiftSummaryDetails = (props) => {
   return (
     <>
       <div className="box">
-        <div className="q-daily-report-bottom-report-header">
+        <table className="table_custome">
+            <thead className="table__header_div">
+              <tr className="table__header">
+                <th>Cashier/Station Name</th>
+                <th>Open Time</th>
+                <th>Close Time</th>
+                <th>Open Drawer ($)</th>
+                <th>Total Sale ($)</th>
+                <th>Total Refund ($)</th>
+                <th>Total Tip ($)</th>
+                <th>Total Vendor Payout ($)</th>
+                <th>Cash Drop ($)</th>
+                <th>Total Cash Sale ($)</th>
+                <th>Total Debit+Credit Sale ($)</th>
+                <th>Expected Cash ($)</th>
+                <th>Drawer Over/Short ($)</th>
+                <th>Actual Cash Deposited ($)</th>
+              </tr>
+            </thead>
+            <tbody>
+                      {/* <tr className="table__body">
+                        <td>John Smith</td>
+                        <td>04-25-2024 11:34:46 AM</td>
+                        <td>4-29-2024 12:21:32 PM</td>
+                        <td>0.00</td>
+                        <td>361.90</td>
+                        <td>361.90</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>361.90</td>
+                        <td>0.00</td>
+                        <td>561.90</td>
+                        <td>-</td>
+                        <td>-</td>
+                      </tr>
+
+                      <tr className="table__body">
+                        <td>John Smith</td>
+                        <td>04-25-2024 11:34:46 AM</td>
+                        <td>4-29-2024 12:21:32 PM</td>
+                        <td>0.00</td>
+                        <td>361.90</td>
+                        <td>361.90</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        <td>361.90</td>
+                        <td>0.00</td>
+                        <td>561.90</td>
+                        <td>-</td>
+                        <td>-</td>
+                      </tr> */}
+
+                      {Object.keys(allshiftsummary).map((date) => (
+                        <div key={date}>
+                          {allshiftsummary[date] &&
+                            allshiftsummary[date].length >= 1 &&
+                            allshiftsummary[date].map((shift, index) => (
+                              <div key={index} >
+                                {shift.map((shiftDetail, shiftIndex) => (
+                                  <tr key={shiftIndex} className="table__body">
+                                    <td >{shiftDetail.device_name}</td>
+                                    <td >{shiftDetail.in_time}</td>
+                                    <td >{shiftDetail.out_time}</td>
+                                    <td >{shiftDetail.drawer_cash}</td>
+                                    <td >{shiftDetail.expected_amt}</td>
+                                    <td >{shiftDetail.actual_amt}</td>
+                                    <td >{shiftDetail.drop_cash}</td>
+                                    <td >{shiftDetail.shift_type}</td>
+                                    <td >{shiftDetail.total_refund}</td>
+                                    <td >{shiftDetail.total_vendor_payout}</td>
+                                    <td >{shiftDetail.total_sale}</td>
+                                    <td >{shiftDetail.refunds}</td>
+                                    <td >{shiftDetail.tip}</td>
+                                    <td >{shiftDetail.card_collected_wr}</td>
+                                    <td >{shiftDetail.cash_collected_wr}</td>
+                                    <td >{shiftDetail.cash_drop}</td>
+                                  </tr>
+                                ))}
+                              </div>
+                            ))}
+                        </div>
+                      ))}
+            </tbody>
+        </table>
+        {/* <div className="q-daily-report-bottom-report-header">
           <p className="report-sort">Cashier/Station Name</p>
           <p className="report-sort">Open Time</p>
           <p className="report-sort">Close Time</p>
@@ -55,7 +141,7 @@ const SiftSummaryDetails = (props) => {
         <div>
           {Object.keys(allshiftsummary).map((date) => (
             <div key={date}>
-              {/* <h2>{date}</h2> */}
+              
               {allshiftsummary[date] &&
                 allshiftsummary[date].length >= 1 &&
                 allshiftsummary[date].map((shift, index) => (
@@ -102,7 +188,7 @@ const SiftSummaryDetails = (props) => {
                 ))}
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
     </>
   );
