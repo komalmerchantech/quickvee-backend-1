@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { Grid, TextField } from "@mui/material";
 import SearchIcon from "../../Assests/Filter/Search.svg";
 import DeleteIcon from "../../Assests/Dashboard/deleteIcon.svg";
-
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 const AutoPo = () => {
   const [searchId, setSearchId] = useState("");
   const [products, setProducts] = useState([]);
   const [showProductList, setShowProductList] = useState(false);
+
+  const { pathname } = useLocation();
 
   const handleSearch = () => {
     if (searchId.trim() !== "") {
@@ -64,9 +67,52 @@ const AutoPo = () => {
       costPerUnit: 50.0,
       total: 500.0,
       upc: "GHI789"
+    },
+    {
+      id: 4,
+      name: "Purchase Product",
+      description: "8”/Pink",
+      qty: 10,
+      costPerUnit: 50.0,
+      total: 500.0,
+      upc: "GHI789"
+    } ,
+    {
+      id: 4,
+      name: "Purchase Product",
+      description: "8”/Pink",
+      qty: 10,
+      costPerUnit: 50.0,
+      total: 500.0,
+      upc: "GHI789"
+    }
+    ,
+    {
+      id: 4,
+      name: "Purchase Product",
+      description: "8”/Pink",
+      qty: 10,
+      costPerUnit: 50.0,
+      total: 500.0,
+      upc: "GHI789"
+    }
+    ,
+    {
+      id: 4,
+      name: "Purchase Product",
+      description: "8”/Pink",
+      qty: 10,
+      costPerUnit: 50.0,
+      total: 500.0,
+      upc: "GHI789"
     }
   ];
 
+
+//     useEffect(() => {
+//     window.scrollTo(0, 0);
+//   }, [pathname]);
+// }
 
   const handleInputChange = (event) => {
     setSearchId(event.target.value);
@@ -93,11 +139,20 @@ const AutoPo = () => {
     e.preventDefault();
   };
 
+
+  const handleAutoPoClick = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth" 
+      
+    });
+    console.log("hello")
+  };
   return (
     <div className="box">
       <div className="box_shadow_div">
         <div className="my-4 px-6">
-          <div className="q_searchBar">
+          <div className="q_searchBar" onClick={handleAutoPoClick}>
             <div className="flex border rounded-md overflow-hidden">
               <button
                 onClick={handleSearch}

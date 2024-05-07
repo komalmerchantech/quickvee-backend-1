@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid, TextField, MenuItem } from "@mui/material";
+import { Grid, TextField } from "@mui/material";
 import AutoPo from "./AutoPo";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -8,12 +8,19 @@ import SelectDropDown from "../../reuseableComponents/SelectDropDown";
 const AddPo = () => {
   const [issueDate, setIssueDate] = useState(null);
   const [stockDate, setStockDate] = useState(null);
+  const [inputType, setInputType] = useState('text');
   const temarray = [
     {
       title: "gfgk",
       name: "priya"
     },
   ];
+
+  const handleInputChange = (event) => {
+    const { value } = event.target;
+    // If there's text entered, change the input type to text
+    setInputType(value.trim() !== '' ? 'text' : 'text');
+  };
 
   const handleVendorClick = () => {
     console.log("hello");
@@ -25,6 +32,8 @@ const AddPo = () => {
   const handleStockDateChange = (date) => {
     setStockDate(date);
   };
+
+
 
   return (
     <>
@@ -47,11 +56,11 @@ const AddPo = () => {
                   onClickHandler={handleVendorClick}
                 />
               </Grid>
-                <Grid item xs={4}>
-                  <label>Issued Date</label>
+              <Grid item xs={4}>
+                <label>Issued Date</label>
 
-                  <TextField fullWidth />
-                </Grid>
+                <TextField fullWidth />
+              </Grid>
               <Grid item xs={4}>
                 <label>Stock Due</label>
 
@@ -62,8 +71,12 @@ const AddPo = () => {
                 <TextField fullWidth />
               </Grid>
               <Grid item xs={6}>
-                <label>Vendor Email</label>
-                <TextField fullWidth />
+                <label>Reference</label>
+                <TextField
+                  fullWidth
+                  type={inputType}
+                  onChange={handleInputChange}
+                />
               </Grid>
             </Grid>
           </div>
