@@ -11,8 +11,14 @@ const initialState = {
 
 // Generate pening , fulfilled and rejected action type
 export const fetchItemSalesData = createAsyncThunk('ItemSalesSlice/fetchItemSalesData.', async (data) => {
+    const { token, ...dataNew } = data;
     try {
-        const response = await axios.post(BASE_URL + GET_ITEMWISE_SALE_LIST, data, { headers: { "Content-Type": "multipart/form-data" } })
+        const response = await axios.post(BASE_URL + GET_ITEMWISE_SALE_LIST, dataNew, { 
+            headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${token}`, // Use data?.token directly
+            },
+        })
         if (response.data.status === true) {
             // console.log(response.data);
             // return response.data.item_sale_data

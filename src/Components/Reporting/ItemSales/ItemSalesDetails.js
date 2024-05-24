@@ -1,22 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchItemSalesData } from "../../../Redux/features/Reports/ItemSales/ItemSalesSlice";
+import { useAuthDetails } from "../../../Common/cookiesHelper";
 
 const ItemSalesDetails = (props) => {
+  const { LoginGetDashBoardRecordJson, LoginAllStore, userTypeData } =
+    useAuthDetails();
   const dispatch = useDispatch();
   const [allItemSalesData, setallItemSalesData] = useState("");
   const AllItemSalesDataState = useSelector((state) => state.ItemSalesReportList);
+
+  let AuthDecryptDataDashBoardJSONFormat = LoginGetDashBoardRecordJson;
+  const merchant_id = AuthDecryptDataDashBoardJSONFormat?.data?.merchant_id;
 
   useEffect(() => {
     if (props && props.selectedDateRange) 
     {
       let data = {
-        merchant_id: "MAL0100CA",
+        merchant_id: merchant_id,
         start_date: props.selectedDateRange.start_date,
         end_date: props.selectedDateRange.end_date,
         order_typ: props.OrderTypeData,
         order_env: props.OrderSourceData,
         cat_name: props.SelectCatData,
+        token_id: userTypeData?.token_id,
+        login_type: userTypeData?.login_type,
+        ...userTypeData,
       };
       if (data) {
         dispatch(fetchItemSalesData(data));

@@ -3,23 +3,32 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchSalePersonData } from "../../../Redux/features/SalesByPerson/SalesByPersonSlice";
 import { Link } from "react-router-dom";
 import OrderSummaryDetails from "./MainOrderSumaaryDetails/OrderSummaryDetails";
+import { useAuthDetails } from "../../../Common/cookiesHelper"
 
 const SalesPersonReport = (props) => {
+  const { LoginGetDashBoardRecordJson, LoginAllStore, userTypeData } =
+  useAuthDetails();
   // console.log(props);
   const dispatch = useDispatch();
   const [allSalesByPersonData, setallSalesByPersonData] = useState("");
   const AllSalesByPersonDataState = useSelector((state) => state.SalesByPersonList);
 
+  let AuthDecryptDataDashBoardJSONFormat = LoginGetDashBoardRecordJson;
+  const merchant_id = AuthDecryptDataDashBoardJSONFormat?.data?.merchant_id;
+
   useEffect(() => {
     if (props && props.selectedDateRange) 
     {
       let data = {
-        merchant_id: "MAL0100CA",
+        merchant_id: merchant_id,
         start_date: props.selectedDateRange.start_date,
         end_date: props.selectedDateRange.end_date,
         order_typ: props.OrderTypeData,
         order_env: props.OrderSourceData,
         employee_id: props.SelectEmpListData,
+        token_id: userTypeData?.token_id,
+        login_type: userTypeData?.login_type,
+        ...userTypeData,
       };
       if (data) {
         dispatch(fetchSalePersonData(data));

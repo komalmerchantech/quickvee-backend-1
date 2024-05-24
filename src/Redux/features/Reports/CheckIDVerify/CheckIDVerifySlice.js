@@ -11,8 +11,14 @@ const initialState = {
 
 // Generate pening , fulfilled and rejected action type
 export const fetchCheckIDVerifyData = createAsyncThunk('CheckIDVerifySlice/fetchCheckIDVerifyData.', async (data) => {
+    const { token, ...dataNew } = data;
     try {
-        const response = await axios.post(BASE_URL + CHECKID_VARIFICATION_REPORT_LIST, data, { headers: { "Content-Type": "multipart/form-data" } })
+        const response = await axios.post(BASE_URL + CHECKID_VARIFICATION_REPORT_LIST, dataNew, { 
+            headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${token}`, // Use data?.token directly
+            },
+        })
         if (response.data.status === true) {
             // console.log(response);
            return response.data.order_data
