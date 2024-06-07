@@ -55,6 +55,7 @@ const CategoryListDropDown = ({ type, onCategoryChange }) => {
   };
 
   const handleOptionClick = (option, dropdown, value) => {
+    console.log('run me', option)
     switch (dropdown) {
       case "category":
         setSelectedCategory(option === "All" ? "All" : option.title);
@@ -64,7 +65,7 @@ const CategoryListDropDown = ({ type, onCategoryChange }) => {
         let data1 = {
           merchant_id: "MAL0100CA",
           format: "json",
-          category_id: option,
+          category_id: option === 'All' ? 'all' : option,
           show_status: "all",
           listing_type: listing_type,
           offset: offset,
@@ -113,7 +114,6 @@ const CategoryListDropDown = ({ type, onCategoryChange }) => {
       ? "dropdown-content scrollable"
       : "dropdown-content";
   const lengthOfArray = Object.values(fetchProductsData).length;
-  //console.log(lengthOfArray);
 
   return (
     <>

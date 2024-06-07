@@ -12,16 +12,15 @@ import { useAuthDetails } from "../../Common/cookiesHelper";
 
 const MainProducts = () => {
   const dispatch = useDispatch();
-  const [productsList, setproductsList] = useState([]);
   const [offset, setoffset] = useState(0);
   const [limit, setlimit] = useState(10);
   const [selectedEmployee, setSelectedEmployee] = useState("Select");
-  // console.log("setSelectedEmployee ", selectedEmployee);
   const [selectedStatus, setSelectedStatus] = useState("all");
-  const [selectedStatusValue, setSelectedStatusValue] = useState("all");
+  const [selectedStatusValue, setSelectedStatusValue] = useState("All");
 
   const [selectedListingType, setSelectedListingType] =
     useState("Select listing");
+    
   const [selectedListingTypeValue, setSelectedListingTypeValue] = useState("0");
 
   const [del_picDropdownVisible, setdel_picDropdownVisible] = useState(false);
@@ -42,7 +41,6 @@ const MainProducts = () => {
   };
 
   const handleSearch = () => {
-    console.log("Search ID:", searchId);
     let name_data = {
       merchant_id: "MAL0100CA",
       category_id: "all",
@@ -86,12 +84,12 @@ const MainProducts = () => {
   };
 
   const handleOptionClick = (option, dropdown, value) => {
+    console.log(option, dropdown)
     switch (dropdown) {
       case "del_pic":
         setSelectedEmployee(option.title);
         setdel_picDropdownVisible(false);
         if (window.confirm("Are you sure you want to update?")) {
-          console.log("yes");
           dispatch(emptyProduct([]));
           let type_date = {
             merchant_id: "MAL0100CA",
@@ -101,11 +99,11 @@ const MainProducts = () => {
             dispatch(updateProductsType(type_date))
               .then((actionResult) => {
                 const responseData = actionResult.payload;
-                // console.log("Response Data:", responseData);
+                
                 if (responseData) {
                   let del_pic_data = {
                     merchant_id: "MAL0100CA",
-                    category_id: categoryId,
+                    category_id: categoryId === "All" ? "all" : categoryId, 
                     show_status: selectedStatus,
                     listing_type: selectedListingTypeValue,
                     offset: 0,
@@ -136,7 +134,7 @@ const MainProducts = () => {
         dispatch(emptyProduct([]));
         let status_data = {
           merchant_id: "MAL0100CA",
-          category_id: categoryId,
+          category_id: categoryId === "All" ? "all" : categoryId,
           show_status: option.id,
           listing_type: selectedListingTypeValue,
           offset: 0,
@@ -153,13 +151,16 @@ const MainProducts = () => {
         dispatch(emptyProduct([]));
         if (option.id === 0) {
           setSelectedListingType("Product listing");
-        } else {
+        } else if(option?.id === 1) {
           setSelectedListingType("Variant listing");
+        }else{
+          setSelectedListingType("Select listing");
+
         }
         setSelectedListingTypeValue(option);
         let listing_data = {
           merchant_id: "MAL0100CA",
-          category_id: categoryId,
+          category_id: categoryId === "All" ? "all" : categoryId,
           show_status: selectedStatus,
           listing_type: option.id,
           offset: 0,
@@ -210,8 +211,7 @@ const MainProducts = () => {
         <ProductTable
           {...{
             selectedListingType,
-            productsList,
-            setproductsList,
+          
             offset,
             setoffset,
             limit,

@@ -475,3 +475,21 @@
 .product-data-table-header p{
   width: 14.28% !important;
 }
+
+.all-product-list{
+  font-family: CircularSTDMedium;
+  padding: 10px;
+  box-sizing: border-box;
+  font-size: 16px;
+  text-align: center;
+}
+
+
+
+/* CkEditor styling */
+
+.ck-editor__editable {
+  min-height: 150px; /* Set your desired height */
+  margin-bottom: 8px;
+  padding-left: 18px !important;
+}

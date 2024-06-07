@@ -4,7 +4,6 @@ import VariantAttributes from "./VariantAttributes";
 import UploadIMG from "../../Assests/Filter/imgupload.svg";
 import GeneratePUC from "./GeneratePUC";
 import { useDispatch, useSelector } from "react-redux";
-import htmlToFormattedText from "html-to-formatted-text";
 import {
   addProduct,
   checkProductTitle,
@@ -33,6 +32,8 @@ import Loader from "../../CommonComponents/Loader";
 
 import { toast } from "react-toastify";
 import { ToastifyAlert } from "../../CommonComponents/ToastifyAlert";
+import CkEditorInput from "../../CommonComponents/CkEditorInput";
+import { useAuthDetails } from "../../Common/cookiesHelper";
 
 const AddProducts = () => {
   const fileUploadRef = useRef();
@@ -40,6 +41,7 @@ const AddProducts = () => {
   const { isLoading, isError, isEditError, isFetchLoading } = useSelector(
     (state) => state?.productsListData
   );
+  const { userTypeData, LoginGetDashBoardRecordJson } = useAuthDetails();
   const navigate = useNavigate();
 
   const [fetchDataLoading, setFetchDataLoading] = useState(false);
@@ -63,6 +65,7 @@ const AddProducts = () => {
     frequentlyBought: [],
     files: [],
   });
+
 
   const [bulkEditPo, setBulkEditPo] = useState([
     {
@@ -315,8 +318,14 @@ const AddProducts = () => {
     }));
   };
 
-  const handleProductInfo = async (e) => {
-    const { name, value } = e.target;
+  const handleProductInfo = async (e, ckEditorData) => {
+
+    let name, value;
+    if(e?.target?.name === "title"){
+     name = e?.target?.name;
+      value = e?.target?.value;
+    }
+
 
     if (name === "title") {
       const formData = new FormData();
@@ -342,6 +351,15 @@ const AddProducts = () => {
         }
       }, 500);
     }
+    // update only when CkEditor value change
+    else if(e?.name === "change:data"){
+      setProductInfo((prev) => ({
+        ...prev,
+        ['description']: ckEditorData,
+      }));
+    }
+
+    // update when type in any input
     setProductInfo((prev) => ({
       ...prev,
       [name]: value,
@@ -495,8 +513,7 @@ const AddProducts = () => {
   useEffect(() => {
     // called API
     const formData = new FormData();
-    formData.append("merchant_id", "MAL0100CA");
-    formData.append("adv_id", "");
+    formData.append("merchant_id", LoginGetDashBoardRecordJson?.data?.merchant_id,);
 
     dispatch(getInventorySetting(formData)).then((res) => {
       if (!!+res?.payload) {
@@ -505,9 +522,15 @@ const AddProducts = () => {
     });
 
     const inventoryData = new FormData();
-    inventoryData.append("merchant_id", "MAL0100CA");
+    inventoryData.append("merchant_id", LoginGetDashBoardRecordJson?.data?.merchant_id);
 
-    dispatch(fetchVarientList(inventoryData)).then((res) => {
+    const inventoryList = {
+      merchant_id:LoginGetDashBoardRecordJson?.data?.merchant_id,
+      ...userTypeData,
+    }
+
+
+    dispatch(fetchVarientList(inventoryList)).then((res) => {
       setDropdowndata((prev) => ({
         ...prev,
         ["varientList"]: res?.payload?.result,
@@ -578,14 +601,19 @@ const AddProducts = () => {
 
     if (name === "costPerItem") {
       // price field total value
-      totalPriceValue = (costPer / 100) * value;
-      price_total_value = parseFloat(value) + parseFloat(totalPriceValue);
+      if(costPer > 0){
 
-      // margin and profit total value
-      let marginvl = (value * 100) / price_total_value.toFixed(2);
-      let showmargin = 100 - marginvl;
-      marginValue = parseFloat(showmargin).toFixed(2);
-      profitValue = parseFloat(price_total_value - value).toFixed(2);
+        totalPriceValue = (costPer / 100) * value;
+        price_total_value = parseFloat(value) + parseFloat(totalPriceValue);
+  
+        // margin and profit total value
+        let marginvl = (value * 100) / price_total_value.toFixed(2);
+        let showmargin = 100 - marginvl;
+        marginValue = parseFloat(showmargin).toFixed(2);
+        profitValue = parseFloat(price_total_value - value).toFixed(2);
+      }else{
+        price_total_value = ""
+      }
     }
 
     // if price value is change manually the recalculate margin and profit value
@@ -704,14 +732,25 @@ const AddProducts = () => {
 
       // when costPerItem value is change manually and not depend on compareAtPrice empty or not
       else if (i === 0 && name === "costPerItem" && value) {
-        return {
-          ...item,
-          [name]: value,
-          ["compareAtPrice"]: "",
-          ["price"]: price_total_value ? price_total_value?.toFixed(2) : "",
-          ["margin"]: !isNaN(marginValue) ? marginValue : "",
-          ["Profit"]: !isNaN(profitValue) ? profitValue : "",
-        };
+        if(costPer > 0){
+
+          return {
+            ...item,
+            [name]: value,
+            ["compareAtPrice"]: "",
+            ["price"]: price_total_value ? price_total_value?.toFixed(2) : "",
+            ["margin"]: !isNaN(marginValue) ? marginValue : "",
+            ["Profit"]: !isNaN(profitValue) ? profitValue : "",
+          };
+        }else{
+          return {
+            ...item,
+            [name]: value,
+            ["compareAtPrice"]: "",
+            ["margin"]: !isNaN(marginValue) ? marginValue : "",
+            ["Profit"]: !isNaN(profitValue) ? profitValue : "",
+          };
+        }
       }
 
       // when section is only 0 and name of field is any but not costPerItem => onblur
@@ -730,6 +769,7 @@ const AddProducts = () => {
 
   const handleOnChange = (e, i) => {
     const { name, value, type } = e.target;
+   
 
     /// convert input value format 0.00
     let fieldValue;
@@ -794,14 +834,18 @@ const AddProducts = () => {
 
     // price field total value calculation based on costPer value which is fetch from API.
     if (name === "costPerItem") {
-      totalPriceValue = (costPer / 100) * fieldValue;
-      price_total_value = parseFloat(fieldValue) + parseFloat(totalPriceValue);
-
-      // margin and profit total value calculation
-      let marginvl = (fieldValue * 100) / price_total_value.toFixed(2);
-      let showmargin = 100 - marginvl;
-      marginValue = parseFloat(showmargin).toFixed(2);
-      profitValue = parseFloat(price_total_value - fieldValue).toFixed(2);
+      if(costPer > 0){
+        totalPriceValue = (costPer / 100) * fieldValue;
+        price_total_value = parseFloat(fieldValue) + parseFloat(totalPriceValue);
+  
+        // margin and profit total value calculation
+        let marginvl = (fieldValue * 100) / price_total_value.toFixed(2);
+        let showmargin = 100 - marginvl;
+        marginValue = parseFloat(showmargin).toFixed(2);
+        profitValue = parseFloat(price_total_value - fieldValue).toFixed(2);
+      }else{
+        price_total_value= ""
+      }
     }
 
     // if price value is change manually the recalculate margin and profit value
@@ -819,25 +863,45 @@ const AddProducts = () => {
     const updatedFormValue = formValue.map((item, index) => {
       // if section is 0 and name is costPerItem => onchange
       if (i === 0 && name === "costPerItem") {
-        return {
-          ...item,
-          ["costPerItem"]: index == 0 ? fieldValue : "",
-          ["price"]: price_total_value ? price_total_value.toFixed(2) : "",
-          ["margin"]:
-            index == 0 ? (!isNaN(marginValue) ? marginValue : "") : "",
-          ["Profit"]:
-            index == 0 ? (!isNaN(profitValue) ? profitValue : "") : "",
-        };
+        if(costPer > 0){
+          return {
+            ...item,
+            ["costPerItem"]: index == 0 ? fieldValue : "",
+            ["price"]: price_total_value ? price_total_value.toFixed(2) : "",
+            ["margin"]:
+              index == 0 ? (!isNaN(marginValue) ? marginValue : "") : "",
+            ["Profit"]:
+              index == 0 ? (!isNaN(profitValue) ? profitValue : "") : "",
+          };
+        }else{
+          return {
+            ...item,
+            ["costPerItem"]: index == 0 ? fieldValue : "",
+            ["margin"]:
+              index == 0 ? (!isNaN(marginValue) ? marginValue : "") : "",
+            ["Profit"]:
+              index == 0 ? (!isNaN(profitValue) ? profitValue : "") : "",
+          };
+        }
       }
       // if section is any but field is 1 and field name is costPerItem => onchange
       else if (i === index && name === "costPerItem") {
-        return {
-          ...item,
-          ["costPerItem"]: fieldValue,
-          ["price"]: price_total_value ? price_total_value.toFixed(2) : "",
-          ["margin"]: !isNaN(marginValue) ? marginValue : "",
-          ["Profit"]: !isNaN(profitValue) ? profitValue : "",
-        };
+        if(costPer > 0){
+          return {
+            ...item,
+            ["costPerItem"]: fieldValue,
+            ["price"]: price_total_value ? price_total_value.toFixed(2) : "",
+            ["margin"]: !isNaN(marginValue) ? marginValue : "",
+            ["Profit"]: !isNaN(profitValue) ? profitValue : "",
+          };
+        }else {
+          return {
+            ...item,
+            ["costPerItem"]: fieldValue,
+            ["margin"]: !isNaN(marginValue) ? marginValue : "",
+            ["Profit"]: !isNaN(profitValue) ? profitValue : "",
+          };
+        }
       }
       // when section is 0 and price field value is change manually and costPerItem field value is not empty => onchange
       else if (i === 0 && name === "price" && !!formValue[i]["costPerItem"]) {
@@ -1063,7 +1127,7 @@ const AddProducts = () => {
       // fill data fields after fetcing data
       setProductInfo({
         title: productData?.title,
-        description: htmlToFormattedText(productData?.description),
+        description: productData?.description,
         category: selectedItemsFromdata(
           productData?.cotegory?.split(","),
           "categoryList"
@@ -1534,6 +1598,9 @@ const AddProducts = () => {
                 </div>
 
                 <div className="q-add-categories-single-input">
+                <CkEditorInput     value={productInfo?.description} onChange={handleProductInfo}/>
+                </div>
+                {/* <div className="q-add-categories-single-input">
                   <label htmlFor="description">Description</label>
                   <textarea
                     id="description"
@@ -1548,7 +1615,7 @@ const AddProducts = () => {
                   ) : (
                     ""
                   )}
-                </div>
+                </div> */}
                 <div className="">
                   <div className="q-add-categories-single-input">
                     <SearchableDropdown

@@ -191,7 +191,7 @@ const FilterProduct = ({
               <Grid item xs={12} sm={6} md={4}>
                 <label>Product Status</label>
                 <SelectDropDown
-                  heading={null}
+                  // heading={null}
                   title={"title"}
                   listItem={productStatusList}
                   selectedOption={selectedStatusValue}

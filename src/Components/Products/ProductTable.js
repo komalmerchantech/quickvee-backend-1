@@ -5,47 +5,92 @@ import { Link } from "react-router-dom";
 import DeleteIcon from "../../Assests/Category/deleteIcon.svg";
 // import EditIcon from "../../Assests/Category/editIcon.svg";
 import SortIcon from "../../Assests/Category/Sorting.svg";
-import { changeOnlineOrderMethod, fetchProductsData } from "../../Redux/features/Product/ProductSlice";
+import {
+  changeOnlineOrderMethod,
+  changeShowType,
+  deleteProductAPI,
+  fetchProductsData,
+} from "../../Redux/features/Product/ProductSlice";
 import { BASE_URL } from "../../Constants/Config";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ProductRow from "./ProductRow";
 import { useAuthDetails } from "../../Common/cookiesHelper";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import { styled } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableRow from "@mui/material/TableRow";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableBody from "@mui/material/TableBody";
+import { ToastifyAlert } from "../../CommonComponents/ToastifyAlert";
+
+const StyledTable = styled(Table)(({ theme }) => ({
+  padding: 2, // Adjust padding as needed
+}));
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: "#253338",
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+  [`&.${tableCellClasses.table}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
 
 const ProductTable = ({
   seVisible,
   selectedListingType,
   selectedListingTypeValue,
-  productsList,
-  setproductsList,
   categoryId,
   selectedStatus,
   selectedStatusValue,
+  searchId,
 }) => {
   let listing_type = 0;
   const ProductsListDataState = useSelector((state) => state.productsListData);
-  const { hasMore, offset, limit } = useSelector(
+  const { hasMore, offset, limit, loading } = useSelector(
     (state) => state.productsListData
   );
-  const { userTypeData } = useAuthDetails();
+  const { userTypeData, LoginGetDashBoardRecordJson } = useAuthDetails();
+  let merchant_id = LoginGetDashBoardRecordJson?.data?.merchant_id;
 
-  const [showType, setShowType]= useState("")
-
-  useEffect(() => {
-    if (!ProductsListDataState.loading && ProductsListDataState.productsData) {
-      setproductsList(ProductsListDataState.productsData);
-      console.log('again call')
-    }
-  }, [
+  const [productList, setproductsList] = useState([]);
+  const [showType, setShowType] = useState("");
+  console.log(
+    "ProductsListDataState",
     ProductsListDataState,
-    ProductsListDataState.loading,
-    ProductsListDataState.productsData,
-  ]);
+    selectedListingType,
+    selectedListingTypeValue,
+    selectedStatusValue
+  );
 
   const dispatch = useDispatch();
+  useEffect(() => {
+    if (ProductsListDataState?.productsData?.length) {
+      setproductsList(ProductsListDataState?.productsData);
+    } else {
+      setproductsList([]);
+    }
+  }, [ProductsListDataState, ProductsListDataState?.productsData, dispatch]);
+
   let payloadData = {
-    merchant_id: "MAL0100CA",
-    category_id: categoryId,
-    show_status: selectedStatusValue,
+    merchant_id: merchant_id,
+    category_id: categoryId === "All" ? "all" : categoryId,
+    show_status: selectedStatusValue === "All" ? "all" : selectedStatusValue,
     listing_type: selectedListingTypeValue,
     offset: 0,
     limit: 10,
@@ -56,9 +101,6 @@ const ProductTable = ({
       dispatch(fetchProductsData(payloadData));
     }
   }, []);
-
-  const [count, setCount] = useState(0);
-
 
   const checkStatus = (status) => {
     switch (status) {
@@ -74,34 +116,46 @@ const ProductTable = ({
   };
 
   const Avail_Online = (event, showtype) => {
-    const {name, value, id} = event?.target;
-    console.log(value, name, id);
-    const data ={
-      product_id:592660,
-      status:value,
-      merchant_id:'MAL0100CA',
-      ...userTypeData,
+    const { name, value, id } = event?.target;
+
+    let updateValue = "";
+    if (showtype === "0" && name === "delivery_check") {
+      updateValue = "1";
+    } else if (showtype === "1" && name === "delivery_check") {
+      updateValue = "0";
+    } else if (showtype === "2" && name === "delivery_check") {
+      updateValue = "3";
+    } else if (showtype === "3" && name === "delivery_check") {
+      updateValue = "2";
+    } else if (showtype === "1" && name === "pickup_check") {
+      updateValue = "3";
+    } else if (showtype === "2" && name === "pickup_check") {
+      updateValue = "0";
+    } else if (showtype === "3" && name === "pickup_check") {
+      updateValue = "1";
+    } else if (showtype === "0" && name === "pickup_check") {
+      updateValue = "2";
     }
-    dispatch(changeOnlineOrderMethod(data)).then((res)=>{
-      if(res?.payload?.status){
-        dispatch(fetchProductsData(payloadData));
+
+    const data = {
+      product_id: id,
+      status: updateValue,
+      merchant_id: "MAL0100CA",
+      ...userTypeData,
+    };
+    dispatch(changeOnlineOrderMethod(data)).then((res) => {
+      if (res?.payload?.status) {
+        dispatch(changeShowType({ updateValue, id }));
+      } else {
+        ToastifyAlert("Online Ordering Unabled to change.", "error");
       }
-    })
+    });
   };
-
-  const [items, setItems] = useState(Array.from({ length: 10 }));
-  const style = {
-    height: 30,
-    border: "1px solid green",
-    margin: 6,
-    padding: 8,
-  };
-
 
   const fetchMoreData = () => {
     let page = 0;
-    if (productsList.length > 0) {
-      page = productsList.length / 10;
+    if (productList.length > 0) {
+      page = productList.length / 10;
     }
 
     if (selectedListingType == "Variant listing") {
@@ -109,12 +163,12 @@ const ProductTable = ({
     } else {
       listing_type = 0;
     }
-    //let page = productsList.length / 10 + 1 ;
+    //let page = productList.length / 10 + 1 ;
     let data1 = {
       merchant_id: "MAL0100CA",
       format: "json",
-      category_id: categoryId,
-      show_status: selectedStatusValue,
+      category_id: categoryId === "All" ? "all" : categoryId,
+      show_status: selectedStatusValue === "All" ? "all" : selectedStatusValue,
       listing_type: selectedListingTypeValue,
       offset: offset,
       limit: 10,
@@ -130,6 +184,32 @@ const ProductTable = ({
     // }, 150);
   };
 
+  const handleDeleteProduct = async (id) => {
+    const userConfirmed = window.confirm(
+      "Are you sure you want to delete this product?"
+    );
+
+    if (!userConfirmed) {
+      return; // If the user clicks "No", exit the function
+    }
+
+    let timer = null;
+    const formData = new FormData();
+    formData.append("id", id);
+    dispatch(deleteProductAPI(formData))
+      .then(async (res) => {
+        if (res?.payload?.status) {
+          ToastifyAlert("Product deleted successfully!", "success");
+          clearTimeout(timer);
+          timer = setTimeout(() => {
+            window.location.reload();
+          }, 600);
+        }
+      })
+      .catch(() => {
+        ToastifyAlert("Error!", "error");
+      });
+  };
   return (
     <>
       <div className="box">
@@ -146,49 +226,220 @@ const ProductTable = ({
             </div>
             <div className="q-category-bottom-detail-section">
               <div className="q-category-bottom-header-sticky">
-                <div
-                  className="q-category-bottom-categories-header product-data-table-header"
-                  style={{ position: "sticky", top: "0px" }}
-                >
-                  <p className="categories-sort">Sort</p>
-                  <p className="categories-title">Title</p>
-                  <p className="categories-items">Category</p>
-                  <p className="categories-enable-disable">
-                    Enable online ordering?
-                  </p>
-                  <p className="categories-items">Product Status</p>
-                  <p className="categories-items">Images</p>
-                  <p className="categories-items">Delete</p>
-                </div>
-
-                <div
-                  id="scrollableDiv"
-                  style={{ height: 300, overflow: "auto" }}
-                >
+                <TableContainer>
                   <InfiniteScroll
-                    dataLength={productsList.length}
+                    dataLength={productList.length}
                     next={fetchMoreData}
-                    hasMore={hasMore}
-                    loader={<h4>Loading...</h4>}
+                    hasMore={!!searchId ? false : hasMore}
+                    loader={<h4 className="all-product-list">Loading...</h4>}
                     scrollableTarget="scrollableDiv"
-                    endMessage={<h3>ALL products have been listed above</h3>}
+                    endMessage={
+                      loading ? (
+                        <h3 className="all-product-list">Loading...</h3>
+                      ) : productList?.length ? (
+                        <h3 className="all-product-list">
+                          ALL products have been listed above
+                        </h3>
+                      ) : (
+                        <h3 className="all-product-list">No Result Found</h3>
+                      )
+                    }
                   >
-                    {productsList?.length >= 1 &&
-                      productsList.map((product, index) => (
-                        <ProductRow
-                          key={index}
-                          setShowType={setShowType}
-                          showType={showType}
-                          {...{
-                            Avail_Online,
-                            index,
-                            product,
-                            checkStatus
-                          }}
-                        />
-                      ))}
+                    <StyledTable
+                      sx={{ minWidth: 500 }}
+                      aria-label="customized table"
+                    >
+                      <TableHead>
+                        <StyledTableCell>Sort</StyledTableCell>
+                        <StyledTableCell>Title</StyledTableCell>
+                        <StyledTableCell>Category</StyledTableCell>
+                        <StyledTableCell>
+                          Enable online ordering?
+                        </StyledTableCell>
+                        <StyledTableCell>Product Status</StyledTableCell>
+                        <StyledTableCell align={"center"}>
+                          Images
+                        </StyledTableCell>
+                        {selectedListingType === "Variant listing" ? (
+                          ""
+                        ) : (
+                          <StyledTableCell>Delete</StyledTableCell>
+                        )}
+                      </TableHead>
+
+                      <TableBody>
+                        {productList?.length >= 1 &&
+                          productList.map((product, index) => {
+                            return (
+                              <StyledTableRow key={product?.id}>
+                                <StyledTableCell>
+                                  <img src={SortIcon} alt="" className="" />
+                                </StyledTableCell>
+                                <StyledTableCell>
+                                  <p className="categories-title">
+                                    <Link to={`/product-edit/${product?.id}`}>
+                                      {product.title}
+                                    </Link>
+                                  </p>
+                                </StyledTableCell>
+                                <StyledTableCell>
+                                  <p className="categories-title">
+                                    {product.category_name}
+                                  </p>
+                                </StyledTableCell>
+                                <StyledTableCell>
+                                  <div className="categories-title">
+                                    <div className="flex flex-wrap gap-3 ">
+                                      <label
+                                        className="q_resigter_setting_section"
+                                        style={{
+                                          color: "#000",
+                                          fontSize: "18px",
+                                        }}
+                                      >
+                                        Delivery
+                                        <input
+                                          type="checkbox"
+                                          id={product.id}
+                                          name="delivery_check"
+                                          checked={
+                                            product.show_type == 0 ||
+                                            product.show_type == 2
+                                              ? true
+                                              : false
+                                          }
+                                          value={product.show_type}
+                                          onChange={(event) => {
+                                            Avail_Online(
+                                              event,
+                                              product?.show_type
+                                            );
+                                          }}
+                                        />
+                                        <span className="checkmark"></span>
+                                      </label>
+                                      <label
+                                        className="q_resigter_setting_section"
+                                        style={{
+                                          color: "#000",
+                                          fontSize: "18px",
+                                        }}
+                                      >
+                                        Pickup
+                                        <input
+                                          type="checkbox"
+                                          id={product.id}
+                                          name="pickup_check"
+                                          checked={
+                                            product.show_type == 0 ||
+                                            product.show_type == 1
+                                              ? true
+                                              : false
+                                          }
+                                          value={product.show_type}
+                                          onChange={(event) => {
+                                            Avail_Online(
+                                              event,
+                                              product?.show_type
+                                            );
+                                          }}
+                                        />
+                                        <span className="checkmark"></span>
+                                      </label>
+                                    </div>
+                                  </div>
+                                </StyledTableCell>
+                                <StyledTableCell>
+                                  <p className="categories-title">
+                                    {checkStatus(product.show_status)?.text}
+                                  </p>
+                                </StyledTableCell>
+                                <StyledTableCell align={"center"}>
+                                  <div className="categories-items">
+                                    <div className="flex items-center space-x-2 text-base"></div>
+                                    <div className="mt-3 flex -space-x-2 overflow-hidden">
+                                      {product?.media
+                                        ?.split(",")
+                                        .slice(0, 4)
+                                        .map((item, index) => (
+                                          <img
+                                            key={index}
+                                            className="inline-block h-12 w-12 rounded-full ring-2 ring-white"
+                                            src={
+                                              BASE_URL +
+                                              "upload/products/MAL0100CA/" +
+                                              item
+                                            }
+                                            onError={(e) => {
+                                              e.target.onerror = null; // prevents looping
+                                              e.target.src = `${BASE_URL}upload/products/MaskGroup4542.png`;
+                                            }}
+                                            alt=""
+                                          />
+                                        ))}
+                                    </div>
+                                    {product?.media?.split(",").length > 4 ? (
+                                      <div className="mt-3 text-sm font-medium">
+                                        <a href="#" className="text-blue-500">
+                                          +{" "}
+                                          {product.media.split(",").length - 4}{" "}
+                                          others
+                                        </a>
+                                      </div>
+                                    ) : (
+                                      ""
+                                    )}
+                                  </div>
+                                </StyledTableCell>
+                                {selectedListingType === "Variant listing" ? (
+                                  ""
+                                ) : (
+                                  <StyledTableCell>
+                                    {" "}
+                                    <p
+                                      className="w-10"
+                                      style={{ cursor: "pointer" }}
+                                    >
+                                      <img
+                                        src={DeleteIcon}
+                                        alt=" "
+                                        className="w-16 h-16"
+                                        onClick={() =>
+                                          handleDeleteProduct(product?.id)
+                                        }
+                                      />
+                                    </p>
+                                  </StyledTableCell>
+                                )}
+                              </StyledTableRow>
+                            );
+                          })}
+                        {/* {productList?.length >= 1 &&
+                          productList.map((product, index) => {
+                            return (
+                              <StyledTableRow key={product?.id}>
+                                <StyledTableCell>
+                                  <ProductRow
+                                    key={index}
+                                    setShowType={setShowType}
+                                    showType={showType}
+                                    {...{
+                                      Avail_Online,
+                                      index,
+                                      product,
+                                      checkStatus,
+                                    }}
+                                  />
+                                 </StyledTableCell>
+                               </StyledTableRow>
+                            );
+                          })} */}
+                      </TableBody>
+                    </StyledTable>
                   </InfiniteScroll>
-                </div>
+                </TableContainer>
+
+                {/* </div> */}
               </div>
             </div>
           </div>

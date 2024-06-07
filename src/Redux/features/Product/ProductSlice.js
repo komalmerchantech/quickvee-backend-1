@@ -26,6 +26,9 @@ const initialState = {
   isEditError: false,
   // for fetchDataBy Id
   isFetchLoading: false,
+
+  // showType initial state
+  showType: 3,
 };
 // Generate pening , fulfilled and rejected action type
 export const fetchAllProducts = createAsyncThunk(
@@ -141,10 +144,17 @@ export const addProduct = createAsyncThunk(
 export const fetchVarientList = createAsyncThunk(
   "products/fetchVarientList",
   async (payload) => {
+    const {token, ...newData} = payload;
     try {
       const response = await axios.post(
         BASE_URL + "Varientsapi/varients_list",
-        payload
+        newData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       return response?.data;
     } catch (error) {
@@ -396,7 +406,6 @@ export const saveBulkInstantPo = createAsyncThunk(
 export const changeOnlineOrderMethod = createAsyncThunk(
   "products/changeOnlineOrderMethod",
   async (payload) => {
-    console.log(payload);
     const {token, ...payloadNew} = payload;
     try {
       const response = await axios.post(
@@ -406,6 +415,26 @@ export const changeOnlineOrderMethod = createAsyncThunk(
           headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response?.data;
+    } catch (error) {
+      throw new Error(error.response.data.message);
+    }
+  }
+);
+
+export const deleteProductAPI = createAsyncThunk(
+  "products/deleteProductAPI",
+  async (payload) => {
+    try {
+      const response = await axios.post(
+        BASE_URL + "Product_api_react/delete_product",
+        payload,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
           },
         }
       );
@@ -443,6 +472,14 @@ const productsSlice = createSlice({
     updateFormValue: (state, action) => {
       state.formData = action?.payload;
     },
+    changeShowType: (state, action)=>{
+      const { id, updateValue } = action.payload;
+      const obj = state.productsData?.find(obj => obj.id === id);
+      if (obj) {
+          obj.show_type = updateValue;
+      }
+    }
+    
   },
   extraReducers: (builder) => {
     builder.addCase(fetchAllProducts.pending, (state) => {
@@ -475,7 +512,7 @@ const productsSlice = createSlice({
     });
     builder.addCase(fetchProductsData.rejected, (state, action) => {
       state.loading = false;
-      state.productsData = {};
+      state.productsData = [];
       state.error = action.error.message;
     });
     builder.addCase(updateProductsType.pending, (state) => {
@@ -534,6 +571,6 @@ const productsSlice = createSlice({
   },
 });
 
-export const { editProduct, emptyProduct, updateFormValue } =
+export const { editProduct, emptyProduct, updateFormValue, changeShowType } =
   productsSlice.actions;
 export default productsSlice.reducer;
